@@ -11,3 +11,17 @@
     border-radius: 12px;
     border-width: 0px;
 }
+
+.nextQuestionButton {
+    width: 151px;
+    height: 68px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    background-color: #222222;
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    border-width: 0px;
+}
