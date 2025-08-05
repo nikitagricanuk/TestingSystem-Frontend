@@ -1,3 +1,10 @@
+* {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+
+    font-style: normal;
+}
+
 .finishButton {
     box-sizing: border-box;
     width: 170px;
@@ -81,8 +88,59 @@
 }
 
 .Timer {
+    width: 151px;
+    height: 63px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.headQuestion {
+    box-sizing: border-box;
+    display: flex;
+    margin-top: 65px;
+    margin-bottom: 29px;
+    justify-content: space-around;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.QuestionComponent {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.Question {
+    align-items: flex-start;
+    box-sizing: border-box;
+    margin-left: 16px;
+}
+
+.questionText {
+    font-size: 24px;
+    margin-bottom: 27px;
+}
+
+.answer {
+    box-sizing: border-box;
+    margin-bottom: 11px;
+    font-size: 24px;
+    align-items: flex-start;
+}
+
+.answerText {
+    box-sizing: border-box;
+    margin-left: 16px;
+}
+
+.errorButton {
+    box-sizing: border-box;
+    background-color: white;
+    border-width: 0px;
+    font-size: 24px;
+    color: #909291;
 }
