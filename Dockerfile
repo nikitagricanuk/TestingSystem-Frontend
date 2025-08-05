@@ -1,5 +1,5 @@
 # Этап сборки
-FROM node:18 AS build
+FROM node:20-slim AS build
 
 WORKDIR /app
 
