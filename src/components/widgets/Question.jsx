@@ -7,7 +7,20 @@ import { useEffect, useState } from "react";
 
 const Questions = ({ questionID, setSelectedAnswers }) => {
     const [question, setQuestion] = useState(null);
-    const [questions, setQuestions] = useState(null);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const all = await getQuestions();
+            localStorage.setItem("questions", JSON.stringify(all));
+        };
+
+        if (localStorage.getItem("questions").length === 0) {
+            alert("Загрузка всех вопросов");
+            loadData();
+        }
+    }, []);
+    const questions = JSON.parse(localStorage.getItem("questions") || "null");
+
     useEffect(() => {
         const loadData = async () => {
             const q = await getQuestion(questionID);
@@ -16,15 +29,6 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
         alert("Загрузка вопроса по айди");
         loadData();
     }, [questionID]);
-
-    useEffect(() => {
-        const loadData = async () => {
-            const all = await getQuestions();
-            setQuestions(all);
-        };
-        alert("Загрузка всех вопросов");
-        loadData();
-    }, []);
 
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -48,7 +52,7 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
 
     let content;
 
-    if (question) {
+    if (question && questions) {
         content = (
             <div>
                 <div className="headQuestion">
@@ -89,14 +93,13 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
                 </div>
             </div>
         );
+    } else if (!question && !questions) {
+        content = <div>Загрузка</div>;
     } else if (questionID > questions.length) {
         content = <div>айди больше чем вопросов</div>;
     } else if (questionID < questions.length) {
         content = <div>айди меньше чем вопросов</div>;
-    } else {
-        content = <div>Загрузка</div>;
     }
-
     return <div className="QuestionComponent">{content}</div>;
 };
 

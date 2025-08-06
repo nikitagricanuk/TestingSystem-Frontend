@@ -61,6 +61,7 @@
     font-size: 36px;
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
 .testDate {
@@ -85,6 +86,7 @@
 .textForTime {
     box-sizing: border-box;
     font-size: 16px;
+    text-align: center;
 }
 
 .Timer {
@@ -143,4 +145,14 @@
     border-width: 0px;
     font-size: 24px;
     color: #909291;
+}
+
+.testFooter {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    padding: 34px;
 }
