@@ -1,24 +1,5 @@
-const questions = [
-    {
-        index: 1,
-        question: "Область сходимости ищется в том случае, если ряд",
-        category: "radio",
-        choices: [
-            "верный ответ отсутствует ",
-            "тригонометрический",
-            "знакопостоянный",
-            "знакопеременный",
-            "знакочередующийся",
-        ],
-    },
-    {
-        index: 2,
-        question: "Какие языки вы знаете?",
-        category: "checkbox",
-        choices: ["Английский", "Испанский", "Немецкий"],
-    },
-];
+import { questions } from "./GetQuestions";
 
-export const getQuestion = (index) => {
-    return questions.find((q) => q.index === index);
+export const getQuestion = async (index) => {
+    return await questions.find((q) => q.index === index);
 };
