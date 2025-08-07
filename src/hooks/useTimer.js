@@ -1,38 +1,40 @@
 import { useEffect, useState } from "react";
 
-const useTimer = () => {
-    //localStorage.clear();
-    const initialMinutes = parseInt(localStorage.getItem("timerMinutes")) || 0;
-    const initialSeconds = parseInt(localStorage.getItem("timerSeconds")) || 10;
-
-    const [minutes, setMinutes] = useState(initialMinutes);
-    const [seconds, setSeconds] = useState(initialSeconds);
+const useTimer = ({ startTime, endTime, onComplete = () => {} }) => {
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
-        localStorage.setItem("timerMinutes", minutes.toString());
-        localStorage.setItem("timerSeconds", seconds.toString());
-    }, [minutes, seconds]);
+        let timer;
+        let isTimerFinished = false;
 
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setSeconds((prevSeconds) => {
-                if (prevSeconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timer);
-                        alert("Время вышло");
-                        return 0;
-                    } else {
-                        setMinutes((prevMinutes) => prevMinutes - 1);
-                        return 59;
-                    }
-                } else {
-                    return prevSeconds - 1;
+        const updateTimer = () => {
+            const now = Date.now();
+            const remainingTime = endTime - now;
+
+            if (remainingTime <= 0) {
+                clearInterval(timer);
+                setMinutes(0);
+                setSeconds(0);
+
+                if (!isTimerFinished) {
+                    isTimerFinished = true;
+                    onComplete();
                 }
-            });
-        }, 1000);
+                return;
+            }
+
+            setMinutes(Math.floor((remainingTime / 1000 / 60) % 60));
+            setSeconds(Math.floor((remainingTime / 1000) % 60));
+        };
+
+        if (startTime && endTime) {
+            updateTimer();
+            timer = setInterval(updateTimer, 1000);
+        }
 
         return () => clearInterval(timer);
-    }, [minutes]);
+    }, [startTime, endTime, onComplete]);
 
     return { minutes, seconds };
 };

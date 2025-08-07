@@ -29,6 +29,12 @@ export const questions = [
         category: "radio",
         choices: ["Да", "Нет"],
     },
+    {
+        index: 5,
+        question: "Вы говорите хорошо знаете иностранные языки?",
+        category: "radio",
+        choices: ["Да", "Нет"],
+    },
 ];
 
 export const getQuestions = async () => {

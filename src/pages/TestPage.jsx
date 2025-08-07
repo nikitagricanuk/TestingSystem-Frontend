@@ -67,7 +67,10 @@ const TestPage = () => {
                 testName={"Ежемесячное тестирование по математике"}
                 testDate={"Сентябрь 2025"}
             />
-            <ProgressBar QuestionsLenght={4} questionNumber={questionNumber} />
+            <ProgressBar
+                QuestionsLenght={questions?.length || 0}
+                questionNumber={questionNumber}
+            />
             <Questions
                 questionID={questionNumber}
                 setSelectedAnswers={setSelectedAnswers}
@@ -89,7 +92,7 @@ const TestPage = () => {
                         onClick={() => {
                             console.log("Выбранный ответ:", selectedAnswers);
                             setSelectedAnswers({});
-                            if (questionNumber < 4) {
+                            if (questionNumber < questions?.length || 0) {
                                 setQuestionNumber(questionNumber + 1);
                             }
                         }}
