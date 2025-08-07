@@ -1,35 +1,8 @@
-import { getQuestion } from "../../services/GetQuestion";
 import Answer from "../ui/answer/Answer";
 import "../../styles/style.css";
 import Button from "../ui/button/Button";
-import { getQuestions } from "../../services/GetQuestions";
-import { useEffect, useState } from "react";
 
-const Questions = ({ questionID, setSelectedAnswers }) => {
-    const [question, setQuestion] = useState(null);
-
-    useEffect(() => {
-        const loadData = async () => {
-            const all = await getQuestions();
-            localStorage.setItem("questions", JSON.stringify(all));
-        };
-
-        if (localStorage.getItem("questions").length === 0) {
-            alert("Загрузка всех вопросов");
-            loadData();
-        }
-    }, []);
-    const questions = JSON.parse(localStorage.getItem("questions") || "null");
-
-    useEffect(() => {
-        const loadData = async () => {
-            const q = await getQuestion(questionID);
-            setQuestion(q);
-        };
-        alert("Загрузка вопроса по айди");
-        loadData();
-    }, [questionID]);
-
+const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
 
@@ -52,7 +25,13 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
 
     let content;
 
-    if (question && questions) {
+    if (!questions) {
+        content = <div>Загрузка вопросов...</div>;
+    } else if (questionID < 1 || questionID > questions.length) {
+        content = <div>Некорректный номер вопроса</div>;
+    } else if (!question) {
+        content = <div>Вопрос не найден</div>;
+    } else {
         content = (
             <div>
                 <div className="headQuestion">
@@ -63,11 +42,11 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
                     <form>
                         {question.choices.map((choice, index) => (
                             <Answer
-                                key={`${question.index}-${index}`}
+                                key={`${questionID}-${index}`}
                                 type={question.category}
-                                name={question.index}
+                                name={`question-${questionID}`}
                                 value={choice}
-                                id={`${question.index}-${index}`}
+                                id={`question-${questionID}-${index}`}
                                 className="answer"
                                 classNameLabel="answerText"
                                 onChange={handleAnswerChange}
@@ -76,12 +55,9 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
                             </Answer>
                         ))}
                     </form>
-                    <hr style={{ marginTop: 54 }} />
+                    <hr style={{ marginTop: "54px" }} />
                     <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                        }}
+                        style={{ display: "flex", justifyContent: "flex-end" }}
                     >
                         <Button
                             className="errorButton"
@@ -93,13 +69,8 @@ const Questions = ({ questionID, setSelectedAnswers }) => {
                 </div>
             </div>
         );
-    } else if (!question && !questions) {
-        content = <div>Загрузка</div>;
-    } else if (questionID > questions.length) {
-        content = <div>айди больше чем вопросов</div>;
-    } else if (questionID < questions.length) {
-        content = <div>айди меньше чем вопросов</div>;
     }
+
     return <div className="QuestionComponent">{content}</div>;
 };
 

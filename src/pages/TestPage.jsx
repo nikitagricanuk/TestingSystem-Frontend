@@ -5,16 +5,61 @@ import NextQuestionButton from "../components/widgets/NextQuestionButton.jsx";
 import PrevQuestionButton from "../components/widgets/prevQuestionButton.jsx";
 import FinishButton from "../components/widgets/FinishButton.jsx";
 import ProgressBar from "../components/widgets/ProgressBar.jsx";
-const TestPage = (props) => {
+import { getQuestions } from "../services/GetQuestions.js";
+import { getQuestion } from "../services/GetQuestion.js";
+
+const TestPage = () => {
     const initialQuestionNumber =
         parseInt(localStorage.getItem("questionNumber")) || 1;
     const [questionNumber, setQuestionNumber] = useState(initialQuestionNumber);
+
+    const [questions, setQuestions] = useState(() => {
+        const stored = localStorage.getItem("questions");
+        return stored ? JSON.parse(stored) : null;
+    });
+
+    const [question, setQuestion] = useState(null);
+    const [selectedAnswers, setSelectedAnswers] = useState({});
 
     useEffect(() => {
         localStorage.setItem("questionNumber", questionNumber.toString());
     }, [questionNumber]);
 
-    const [selectedAnswers, setSelectedAnswers] = useState({});
+    useEffect(() => {
+        const loadAllQuestions = async () => {
+            try {
+                const allQuestions = await getQuestions();
+                setQuestions(allQuestions);
+                localStorage.setItem("questions", JSON.stringify(allQuestions));
+            } catch (err) {
+                console.error("Ошибка при загрузке всех вопросов:", err);
+            }
+        };
+
+        if (!questions || questions.length === 0) {
+            loadAllQuestions();
+        }
+    }, [questions]);
+
+    useEffect(() => {
+        const loadSingleQuestion = async () => {
+            try {
+                if (questions && questions.length > 0) {
+                    const q = questions.find((q) => q.id === questionNumber);
+                    if (q) {
+                        setQuestion(q);
+                        return;
+                    }
+                }
+                const q = await getQuestion(questionNumber);
+                setQuestion(q);
+            } catch (err) {
+                console.error("Ошибка при загрузке вопроса:", err);
+            }
+        };
+
+        loadSingleQuestion();
+    }, [questionNumber, questions]);
 
     return (
         <div>
@@ -26,6 +71,8 @@ const TestPage = (props) => {
             <Questions
                 questionID={questionNumber}
                 setSelectedAnswers={setSelectedAnswers}
+                questions={questions}
+                question={question}
             />
             <div className="testFooter">
                 <div>
@@ -43,7 +90,6 @@ const TestPage = (props) => {
                             console.log("Выбранный ответ:", selectedAnswers);
                             setSelectedAnswers({});
                             if (questionNumber < 4) {
-                                // если 4 - количество вопросов
                                 setQuestionNumber(questionNumber + 1);
                             }
                         }}
