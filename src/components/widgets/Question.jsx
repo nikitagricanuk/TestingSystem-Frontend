@@ -1,7 +1,8 @@
 import Answer from "../ui/answer/Answer";
 import "../../styles/style.css";
 import Button from "../ui/button/Button";
-
+import { useNavigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
 const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -55,7 +56,7 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
                             </Answer>
                         ))}
                     </form>
-                    <hr style={{ marginTop: "54px" }} />
+                    <hr className="line" />
                     <div
                         style={{ display: "flex", justifyContent: "flex-end" }}
                     >
@@ -70,6 +71,23 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
             </div>
         );
     }
+
+    const navigate = useNavigate();
+    const goToResult = () => {
+        if (!goToResult.hasRun) {
+            goToResult.hasRun = true;
+            alert("Переход к результатам");
+            // navigate("/result");
+        }
+    };
+    const hasRedirected = useRef(false);
+
+    useEffect(() => {
+        if (questionID > questions.length && !hasRedirected.current) {
+            hasRedirected.current = true;
+            goToResult();
+        }
+    }, [questionID, questions.length]);
 
     return <div className="QuestionComponent">{content}</div>;
 };

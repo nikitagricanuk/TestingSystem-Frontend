@@ -15,27 +15,14 @@ const ProgressBar = ({ QuestionsLenght, questionNumber, infinityQuestion }) => {
 
     return (
         <div style={{ marginTop: "17px" }}>
-            <div
-                style={{
-                    height: "11px",
-                    backgroundColor: "#8CC4FF",
-                    borderRadius: "8px",
-                    alignContent: "center",
-                }}
-            >
+            <div className="progressbarBackground">
                 <Dots size={size} onSpacingChange={handleSpacingChange} />
             </div>
             <div
                 style={{
-                    marginTop: "-11px",
                     width: `${progressWidth}px`,
-                    height: "11px",
-                    backgroundColor: "#4C9DF4",
-                    borderRadius: "8px",
-                    alignContent: "center",
-                    pointerEvents: "none",
-                    transition: "width 0.3s ease-in-out",
                 }}
+                className="progressbarProgress"
             ></div>
         </div>
     );

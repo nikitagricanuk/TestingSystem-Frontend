@@ -30,33 +30,12 @@ const Dots = ({ size, onSpacingChange }) => {
     const dots = [];
 
     for (let i = 0; i < size; i++) {
-        dots.push(
-            <div
-                key={i}
-                style={{
-                    backgroundColor: "#3F82C9",
-                    borderRadius: "50%",
-                    height: "5px",
-                    width: "5px",
-                    flexShrink: 0,
-                }}
-            />
-        );
+        dots.push(<div key={i} className="dotsElement" />);
     }
 
     return (
         <div>
-            <div
-                ref={containerRef}
-                style={{
-                    position: "relative",
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    width: "100vw",
-                    maxWidth: "100%",
-                    margin: "0 auto",
-                }}
-            >
+            <div ref={containerRef} className="dotsContainer">
                 {dots}
             </div>
         </div>

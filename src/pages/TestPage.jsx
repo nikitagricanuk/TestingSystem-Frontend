@@ -87,19 +87,19 @@ const TestPage = () => {
                         }}
                     />
                 </div>
-                <div style={{ marginLeft: "18px" }}>
+                <div className="marginNextPrevButton">
                     <NextQuestionButton
                         onClick={() => {
                             console.log("Выбранный ответ:", selectedAnswers);
                             setSelectedAnswers({});
-                            if (questionNumber < questions?.length || 0) {
+                            if (questionNumber <= questions?.length || 0) {
                                 setQuestionNumber(questionNumber + 1);
                             }
                         }}
                     />
                 </div>
 
-                <div style={{ marginLeft: "365px" }}>
+                <div className="marginFinishButton">
                     <FinishButton />
                 </div>
             </div>

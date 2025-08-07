@@ -5,7 +5,7 @@ import { ReactComponent as Arrow } from "../../assets/arrow.svg";
 const PrevQuestionButton = (props) => {
     return (
         <Button className="prevQuestionButton" {...props}>
-            <Arrow width="100px" height="100px" />
+            <Arrow className="Arrow" />
         </Button>
     );
 };

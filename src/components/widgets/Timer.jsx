@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import useTimer from "../../hooks/useTimer";
-
+import { useNavigate } from "react-router-dom";
 const Timer = () => {
     const [serverTimes, setServerTimes] = useState({
         startTime: null,
         endTime: null,
     });
+
+    const navigate = useNavigate();
+    const goToResult = () => {
+        if (!goToResult.hasRun) {
+            goToResult.hasRun = true;
+            alert("Переход к результатам timer");
+            // navigate("/result");
+        }
+    };
 
     useEffect(() => {
         const savedStart = localStorage.getItem("serverStartTime");
@@ -19,7 +28,7 @@ const Timer = () => {
         } else {
             const fakeApiResponse = {
                 startTime: Date.now(),
-                endTime: Date.now() + 60 * 1000, // +1 минута
+                endTime: Date.now() + 300 * 1000, // +1 минута
             };
 
             localStorage.setItem(
@@ -40,6 +49,7 @@ const Timer = () => {
 
         localStorage.removeItem("serverStartTime");
         localStorage.removeItem("serverEndTime");
+        goToResult();
     };
 
     const { minutes, seconds } = useTimer({
