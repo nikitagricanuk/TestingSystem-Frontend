@@ -5,76 +5,67 @@ import NextQuestionButton from "../components/widgets/NextQuestionButton.jsx";
 import PrevQuestionButton from "../components/widgets/prevQuestionButton.jsx";
 import FinishButton from "../components/widgets/FinishButton.jsx";
 import ProgressBar from "../components/widgets/ProgressBar.jsx";
-import { getQuestions } from "../services/GetQuestions.js";
-import { getQuestion } from "../services/GetQuestion.js";
+import { getQuestion } from "../services/getQuestion.js";
+import startTest from "../services/startNewSession.js";
+import { sendAnswer } from "../services/sendAnswer.js";
 
 const TestPage = () => {
+    // localStorage.clear();
     const initialQuestionNumber =
         parseInt(localStorage.getItem("questionNumber")) || 1;
+
     const [questionNumber, setQuestionNumber] = useState(initialQuestionNumber);
 
-    const [questions, setQuestions] = useState(() => {
-        const stored = localStorage.getItem("questions");
-        return stored ? JSON.parse(stored) : null;
-    });
-
-    const [question, setQuestion] = useState(null);
+    const [question, setQuestion] = useState({});
     const [selectedAnswers, setSelectedAnswers] = useState({});
+
+    const [data, setData] = useState();
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await startTest();
+                setData(response.data);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchData();
+    }, []);
 
     useEffect(() => {
         localStorage.setItem("questionNumber", questionNumber.toString());
     }, [questionNumber]);
 
     useEffect(() => {
-        const loadAllQuestions = async () => {
+        const loadQuestionByID = async () => {
             try {
-                const allQuestions = await getQuestions();
-                setQuestions(allQuestions);
-                localStorage.setItem("questions", JSON.stringify(allQuestions));
-            } catch (err) {
-                console.error("Ошибка при загрузке всех вопросов:", err);
-            }
-        };
-
-        if (!questions || questions.length === 0) {
-            loadAllQuestions();
-        }
-    }, [questions]);
-
-    useEffect(() => {
-        const loadSingleQuestion = async () => {
-            try {
-                if (questions && questions.length > 0) {
-                    const q = questions.find((q) => q.id === questionNumber);
-                    if (q) {
-                        setQuestion(q);
-                        return;
-                    }
-                }
+                // TODO добавь проверку чтоб не запрашивала сверх вопросов
+                console.log(questionNumber, "из", data?.total_questions);
                 const q = await getQuestion(questionNumber);
-                setQuestion(q);
+                setQuestion(q.data);
             } catch (err) {
                 console.error("Ошибка при загрузке вопроса:", err);
             }
         };
 
-        loadSingleQuestion();
-    }, [questionNumber, questions]);
+        loadQuestionByID();
+    }, [questionNumber]);
 
-    return (
+    return data != undefined && question != undefined ? (
         <div>
             <TestHeader
                 testName={"Ежемесячное тестирование по математике"}
                 testDate={"Сентябрь 2025"}
             />
             <ProgressBar
-                QuestionsLenght={questions?.length || 0}
+                QuestionsLenght={data?.total_questions || 0}
                 questionNumber={questionNumber}
             />
             <Questions
                 questionID={questionNumber}
                 setSelectedAnswers={setSelectedAnswers}
-                questions={questions}
+                totalQuestions={data?.total_questions}
                 question={question}
             />
             <div className="testFooter">
@@ -90,9 +81,11 @@ const TestPage = () => {
                 <div className="marginNextPrevButton">
                     <NextQuestionButton
                         onClick={() => {
-                            console.log("Выбранный ответ:", selectedAnswers);
-                            setSelectedAnswers({});
-                            if (questionNumber <= questions?.length || 0) {
+                            if (questionNumber < data?.total_questions || 0) {
+                                sendAnswer(questionNumber, 1, selectedAnswers);
+                                setSelectedAnswers({});
+                            }
+                            if (questionNumber <= data?.total_questions || 0) {
                                 setQuestionNumber(questionNumber + 1);
                             }
                         }}
@@ -104,6 +97,9 @@ const TestPage = () => {
                 </div>
             </div>
         </div>
+    ) : (
+        // TODO сделать лоадер
+        <div>Загрузка вопросов </div>
     );
 };
 

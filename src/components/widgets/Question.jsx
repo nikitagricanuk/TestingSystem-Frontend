@@ -3,7 +3,13 @@ import "../../styles/style.css";
 import Button from "../ui/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
-const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
+import { submitTest } from "../../services/submitTest";
+const Questions = ({
+    questionID,
+    setSelectedAnswers,
+    totalQuestions,
+    question,
+}) => {
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
 
@@ -19,16 +25,13 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
                     };
                 }
             } else {
-                return { ...prevAnswers, [name]: value };
+                return { ...prevAnswers, [name]: [value] };
             }
         });
     };
 
     let content;
-
-    if (!questions) {
-        content = <div>Загрузка вопросов...</div>;
-    } else if (questionID < 1 || questionID > questions.length) {
+    if (questionID < 1 || questionID > totalQuestions) {
         content = <div>Некорректный номер вопроса</div>;
     } else if (!question) {
         content = <div>Вопрос не найден</div>;
@@ -41,13 +44,13 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
                 <div className="Question">
                     <div className="questionText">{question.question}</div>
                     <form>
-                        {question.choices.map((choice, index) => (
+                        {question.choices.map((choice, question_id) => (
                             <Answer
-                                key={`${questionID}-${index}`}
+                                key={`${questionID}-${question_id}`}
                                 type={question.category}
                                 name={`question-${questionID}`}
                                 value={choice}
-                                id={`question-${questionID}-${index}`}
+                                id={`question-${questionID}-${question_id}`}
                                 className="answer"
                                 classNameLabel="answerText"
                                 onChange={handleAnswerChange}
@@ -76,6 +79,7 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
     const goToResult = () => {
         if (!goToResult.hasRun) {
             goToResult.hasRun = true;
+            submitTest();
             alert("Переход к результатам");
             // navigate("/result");
         }
@@ -83,11 +87,11 @@ const Questions = ({ questionID, setSelectedAnswers, questions, question }) => {
     const hasRedirected = useRef(false);
 
     useEffect(() => {
-        if (questionID > questions.length && !hasRedirected.current) {
+        if (questionID > totalQuestions && !hasRedirected.current) {
             hasRedirected.current = true;
             goToResult();
         }
-    }, [questionID, questions.length]);
+    }, [questionID, totalQuestions]);
 
     return <div className="QuestionComponent">{content}</div>;
 };

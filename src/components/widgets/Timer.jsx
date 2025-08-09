@@ -1,20 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import useTimer from "../../hooks/useTimer";
 import { useNavigate } from "react-router-dom";
+import { submitTest } from "../../services/submitTest";
 const Timer = () => {
     const [serverTimes, setServerTimes] = useState({
         startTime: null,
         endTime: null,
     });
-
-    const navigate = useNavigate();
-    const goToResult = () => {
-        if (!goToResult.hasRun) {
-            goToResult.hasRun = true;
-            alert("Переход к результатам timer");
-            // navigate("/result");
-        }
-    };
 
     useEffect(() => {
         const savedStart = localStorage.getItem("serverStartTime");
@@ -44,12 +36,21 @@ const Timer = () => {
         }
     }, []);
 
+    const navigate = useNavigate();
+    const hasRun = useRef(false);
+
     const handleTimerComplete = () => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+
         alert("Время вышло!");
+        submitTest();
 
         localStorage.removeItem("serverStartTime");
         localStorage.removeItem("serverEndTime");
-        goToResult();
+
+        alert("Переход к результатам timer");
+        // navigate("/result");
     };
 
     const { minutes, seconds } = useTimer({
