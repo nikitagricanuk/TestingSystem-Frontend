@@ -11,6 +11,8 @@ const TestHeader = (props) => {
                 <div className="testDate">{props.testDate}</div>
             </div>
             <Timer
+                timeStart={props.timeStart}
+                timeEnd={props.timeEnd}
                 className={"Timer"}
                 classNameForTime={"timeInTimer"}
                 classNameForText={"textForTime"}

@@ -6,7 +6,12 @@ const useTimer = ({ startTime, endTime, onComplete = () => {} }) => {
 
     useEffect(() => {
         let timer;
-        let isTimerFinished = false;
+        if (!startTime || !endTime || startTime >= endTime) {
+            setMinutes(0);
+            setSeconds(0);
+            onComplete();
+            return;
+        }
 
         const updateTimer = () => {
             const now = Date.now();
@@ -17,10 +22,8 @@ const useTimer = ({ startTime, endTime, onComplete = () => {} }) => {
                 setMinutes(0);
                 setSeconds(0);
 
-                if (!isTimerFinished) {
-                    isTimerFinished = true;
-                    onComplete();
-                }
+                onComplete();
+
                 return;
             }
 

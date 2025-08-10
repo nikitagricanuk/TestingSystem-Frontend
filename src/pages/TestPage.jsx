@@ -10,7 +10,7 @@ import startTest from "../services/startNewSession.js";
 import { sendAnswer } from "../services/sendAnswer.js";
 
 const TestPage = () => {
-    // localStorage.clear();
+    //localStorage.clear();
     const initialQuestionNumber =
         parseInt(localStorage.getItem("questionNumber")) || 1;
 
@@ -57,6 +57,8 @@ const TestPage = () => {
             <TestHeader
                 testName={"Ежемесячное тестирование по математике"}
                 testDate={"Сентябрь 2025"}
+                timeStart={data?.time_start}
+                timeEnd={data?.time_finish}
             />
             <ProgressBar
                 QuestionsLenght={data?.total_questions || 0}
