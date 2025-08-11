@@ -36,8 +36,9 @@ const TestPage = () => {
                     setData(response.data);
                 } else {
                     const response = await startTest(1);
-                    setSid(response.data);
                     localStorage.setItem("Sid", response.data.sid);
+                    setSid(response.data.sid);
+                    setData(response.data);
                 }
             } catch (err) {
                 if (err.code === "ECONNABORTED") {
@@ -50,7 +51,7 @@ const TestPage = () => {
         }
 
         fetchData();
-    }, []);
+    }, [sid]);
 
     useEffect(() => {
         localStorage.setItem("questionNumber", questionNumber.toString());
