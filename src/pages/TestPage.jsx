@@ -9,6 +9,7 @@ import { getQuestion } from "../services/getQuestion.js";
 import startTest from "../services/startNewSession.js";
 import { sendAnswer } from "../services/sendAnswer.js";
 import { useNavigate } from "react-router-dom";
+import { getSessionInfo } from "../services/getSessionInfo.js";
 
 const TestPage = () => {
     const initialQuestionNumber =
@@ -16,25 +17,38 @@ const TestPage = () => {
     const [questionNumber, setQuestionNumber] = useState(initialQuestionNumber);
     const [question, setQuestion] = useState();
     const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [sid, setSid] = useState(null);
     const [data, setData] = useState(null);
+    const [timeout, setTimeoutFlag] = useState(false);
     const navigate = useNavigate();
     let content;
-    const [timeout, setTimeout] = useState(false);
+
+    //localStorage.clear();
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await startTest();
-                setData(response.data);
+                const storedSid = localStorage.getItem("Sid");
+
+                if (storedSid) {
+                    setSid(storedSid);
+                    const response = await getSessionInfo(storedSid);
+                    setData(response.data);
+                } else {
+                    const response = await startTest(1);
+                    setSid(response.data);
+                    localStorage.setItem("Sid", response.data.sid);
+                }
             } catch (err) {
                 if (err.code === "ECONNABORTED") {
                     console.error("Таймаут запроса");
-                    setTimeout(true);
+                    setTimeoutFlag(true);
                 } else {
                     console.error("Другая ошибка:", err.message);
                 }
             }
         }
+
         fetchData();
     }, []);
 
@@ -114,7 +128,6 @@ const TestPage = () => {
                             }}
                         />
                     </div>
-
                     <div className="marginFinishButton">
                         <FinishButton />
                     </div>
@@ -124,7 +137,12 @@ const TestPage = () => {
     } else if (timeout) {
         content = <div>TIMEOUT</div>;
     } else {
-        content = <div className="loader"></div>;
+        content = (
+            <div className="loader-wrapper">
+                <div className="loader"></div>
+                <div className="textLoader">Загрузка теста</div>
+            </div>
+        );
     }
 
     return <div>{content}</div>;
