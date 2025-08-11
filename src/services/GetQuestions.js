@@ -1,7 +1,5 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 
 export const getQuestions = async (session_id) => {
-    return await axios.get(
-        `http://127.0.0.1:8000/tests/session/${session_id}/question/list`
-    );
+    return await axios.get(`/tests/session/${session_id}/question/list`);
 };

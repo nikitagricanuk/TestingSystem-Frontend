@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 
 export const sendAnswer = async (question_id, session_id = 1, answer) => {
     const value = answer ? answer[Object.keys(answer)] : "";
@@ -7,7 +7,7 @@ export const sendAnswer = async (question_id, session_id = 1, answer) => {
 
     try {
         return await axios.post(
-            `http://127.0.0.1:8000/tests/session/${session_id}/question/${question_id}/answer`,
+            `/tests/session/${session_id}/question/${question_id}/answer`,
             payload
         );
     } catch (err) {

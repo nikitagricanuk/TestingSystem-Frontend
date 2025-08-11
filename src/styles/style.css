@@ -201,14 +201,14 @@
     height: 100%;
 }
 
+.line {
+    margin-top: 54px;
+}
+
 @media (max-width: 768px) {
     .marginFinishButton {
         margin-left: 50px !important;
     }
-}
-
-.line {
-    margin-top: 54px;
 }
 
 @media (max-width: 480px) {

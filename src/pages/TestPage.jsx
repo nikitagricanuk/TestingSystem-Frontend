@@ -8,18 +8,18 @@ import ProgressBar from "../components/widgets/ProgressBar.jsx";
 import { getQuestion } from "../services/getQuestion.js";
 import startTest from "../services/startNewSession.js";
 import { sendAnswer } from "../services/sendAnswer.js";
+import { useNavigate } from "react-router-dom";
 
 const TestPage = () => {
-    //localStorage.clear();
     const initialQuestionNumber =
         parseInt(localStorage.getItem("questionNumber")) || 1;
-
     const [questionNumber, setQuestionNumber] = useState(initialQuestionNumber);
-
-    const [question, setQuestion] = useState({});
+    const [question, setQuestion] = useState();
     const [selectedAnswers, setSelectedAnswers] = useState({});
-
-    const [data, setData] = useState();
+    const [data, setData] = useState(null);
+    const navigate = useNavigate();
+    let content;
+    const [timeout, setTimeout] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -27,7 +27,12 @@ const TestPage = () => {
                 const response = await startTest();
                 setData(response.data);
             } catch (err) {
-                console.log(err);
+                if (err.code === "ECONNABORTED") {
+                    console.error("Таймаут запроса");
+                    setTimeout(true);
+                } else {
+                    console.error("Другая ошибка:", err.message);
+                }
             }
         }
         fetchData();
@@ -40,69 +45,89 @@ const TestPage = () => {
     useEffect(() => {
         const loadQuestionByID = async () => {
             try {
-                // TODO добавь проверку чтоб не запрашивала сверх вопросов
-                console.log(questionNumber, "из", data?.total_questions);
-                const q = await getQuestion(questionNumber);
-                setQuestion(q.data);
+                if (data !== null && questionNumber <= data?.total_questions) {
+                    console.log(questionNumber, "из", data?.total_questions);
+                    const q = await getQuestion(questionNumber);
+                    setQuestion(q.data);
+                } else {
+                    throw new Error(
+                        "Основные данные не были получены до запроса"
+                    );
+                }
             } catch (err) {
                 console.error("Ошибка при загрузке вопроса:", err);
             }
         };
 
         loadQuestionByID();
-    }, [questionNumber]);
+    }, [questionNumber, data]);
 
-    return data != undefined && question != undefined ? (
-        <div>
-            <TestHeader
-                testName={"Ежемесячное тестирование по математике"}
-                testDate={"Сентябрь 2025"}
-                timeStart={data?.time_start}
-                timeEnd={data?.time_finish}
-            />
-            <ProgressBar
-                QuestionsLenght={data?.total_questions || 0}
-                questionNumber={questionNumber}
-            />
-            <Questions
-                questionID={questionNumber}
-                setSelectedAnswers={setSelectedAnswers}
-                totalQuestions={data?.total_questions}
-                question={question}
-            />
-            <div className="testFooter">
-                <div>
-                    <PrevQuestionButton
-                        onClick={() => {
-                            if (questionNumber > 1) {
-                                setQuestionNumber(questionNumber - 1);
-                            }
-                        }}
-                    />
-                </div>
-                <div className="marginNextPrevButton">
-                    <NextQuestionButton
-                        onClick={() => {
-                            if (questionNumber < data?.total_questions || 0) {
-                                sendAnswer(questionNumber, 1, selectedAnswers);
-                                setSelectedAnswers({});
-                            }
-                            if (questionNumber <= data?.total_questions || 0) {
-                                setQuestionNumber(questionNumber + 1);
-                            }
-                        }}
-                    />
-                </div>
+    if (data && question) {
+        content = (
+            <div>
+                <TestHeader
+                    testName={"Ежемесячное тестирование по математике"}
+                    testDate={"Сентябрь 2025"}
+                    timeStart={data?.time_start}
+                    timeEnd={data?.time_finish}
+                />
+                <ProgressBar
+                    QuestionsLenght={data?.total_questions || 0}
+                    questionNumber={questionNumber}
+                />
+                <Questions
+                    questionID={questionNumber}
+                    setSelectedAnswers={setSelectedAnswers}
+                    totalQuestions={data?.total_questions}
+                    question={question}
+                />
+                <div className="testFooter">
+                    <div>
+                        <PrevQuestionButton
+                            onClick={() => {
+                                if (questionNumber > 1) {
+                                    setQuestionNumber(questionNumber - 1);
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className="marginNextPrevButton">
+                        <NextQuestionButton
+                            onClick={() => {
+                                if (
+                                    questionNumber < data?.total_questions ||
+                                    0
+                                ) {
+                                    sendAnswer(
+                                        questionNumber,
+                                        1,
+                                        selectedAnswers
+                                    );
+                                    setSelectedAnswers({});
+                                }
+                                if (
+                                    questionNumber <= data?.total_questions ||
+                                    0
+                                ) {
+                                    setQuestionNumber(questionNumber + 1);
+                                }
+                            }}
+                        />
+                    </div>
 
-                <div className="marginFinishButton">
-                    <FinishButton />
+                    <div className="marginFinishButton">
+                        <FinishButton />
+                    </div>
                 </div>
             </div>
-        </div>
-    ) : (
-        // TODO сделать лоадер
-        <div>Загрузка вопросов </div>
-    );
+        );
+    } else if (timeout) {
+        content = <div>TIMEOUT</div>;
+    } else {
+        content = <div className="loader"></div>;
+    }
+
+    return <div>{content}</div>;
 };
 
 export default TestPage;
