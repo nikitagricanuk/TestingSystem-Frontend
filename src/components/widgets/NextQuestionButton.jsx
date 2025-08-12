@@ -1,5 +1,4 @@
 import Button from "../ui/button/Button.jsx";
-import "../../styles/style.css";
 
 const NextQuestionButton = (props) => {
     return (

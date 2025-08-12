@@ -1,6 +1,5 @@
 import { ReactComponent as Logo } from "../../assets/Logo.svg";
 import Timer from "./Timer";
-import "../../styles/style.css";
 
 const TestHeader = (props) => {
     return (

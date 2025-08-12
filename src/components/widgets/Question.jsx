@@ -1,5 +1,4 @@
 import Answer from "../ui/answer/Answer";
-import "../../styles/style.css";
 import Button from "../ui/button/Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";

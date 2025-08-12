@@ -1,3 +1,7 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+
 * {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
@@ -92,7 +96,6 @@
     height: 63px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
