@@ -10,6 +10,9 @@ import startTest from "../services/startNewSession.js";
 import { sendAnswer } from "../services/sendAnswer.js";
 import { useNavigate } from "react-router-dom";
 import { getSessionInfo } from "../services/getSessionInfo.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loader from "../components/ui/loader/Loader.jsx";
 
 const TestPage = () => {
     const initialQuestionNumber =
@@ -30,13 +33,14 @@ const TestPage = () => {
         setError(null);
         try {
             await sendAnswer(questionNumber, 1, selectedAnswers);
+            setSelectedAnswers({});
             if (questionNumber <= data?.total_questions) {
-                setQuestionNumber(questionNumber + 1);
+                setQuestionNumber((prev) => prev + 1);
             }
         } catch (err) {
-            if (err.response && err.response.status === 429) {
+            if (err.response?.status === 429) {
                 setError("Слишком много запросов. Пожалуйста, подождите.");
-                alert("Минимальное время для ответа - это 5 секунд");
+                toast.error("Минимальное время для ответа - 5 секунд");
             } else {
                 setError("Произошла ошибка. Попробуйте еще раз.");
             }
@@ -46,30 +50,31 @@ const TestPage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const storedSid = localStorage.getItem("Sid");
+                let sidFromStorage = localStorage.getItem("Sid");
 
-                if (storedSid) {
-                    setSid(storedSid);
-                    const response = await getSessionInfo(storedSid);
-                    setData(response.data);
-                } else {
-                    const response = await startTest(1);
-                    localStorage.setItem("Sid", response.data.sid);
-                    setSid(response.data.sid);
-                    setData(response.data);
+                if (!sidFromStorage) {
+                    const { data } = await startTest(1);
+                    sidFromStorage = data.sid;
+                    localStorage.setItem("Sid", sidFromStorage);
+                    setSid(sidFromStorage);
+                    setData(data);
+                    return;
                 }
+
+                setSid(sidFromStorage);
+                const { data } = await getSessionInfo(sidFromStorage);
+                setData(data);
             } catch (err) {
                 if (err.code === "ECONNABORTED") {
-                    console.error("Таймаут запроса");
                     setTimeoutFlag(true);
                 } else {
-                    console.error("Другая ошибка:", err.message);
+                    console.error("Ошибка:", err.message);
                 }
             }
         }
 
         fetchData();
-    }, [sid]);
+    }, []);
 
     useEffect(() => {
         localStorage.setItem("questionNumber", questionNumber.toString());
@@ -80,7 +85,7 @@ const TestPage = () => {
             try {
                 if (data !== null && questionNumber <= data?.total_questions) {
                     console.log(questionNumber, "из", data?.total_questions);
-                    const q = await getQuestion(questionNumber);
+                    const q = await getQuestion(questionNumber, sid);
                     setQuestion(q.data);
                 } else {
                     throw new Error(
@@ -114,6 +119,7 @@ const TestPage = () => {
                     totalQuestions={data?.total_questions}
                     question={question}
                 />
+                <ToastContainer />
                 <div className="testFooter">
                     <div>
                         <PrevQuestionButton
@@ -149,12 +155,7 @@ const TestPage = () => {
             </div>
         );
     } else {
-        content = (
-            <div className="loader-wrapper">
-                <div className="loader"></div>
-                <div>Подключение к серверу</div>
-            </div>
-        );
+        content = <Loader />;
     }
 
     return <div>{content}</div>;
