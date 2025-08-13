@@ -8,6 +8,7 @@ RUN npm install
 
 COPY . .
 RUN npm run build
+RUN npm install -D tailwindcss@3
 
 # Этап продакшен-сервера
 FROM nginx:alpine

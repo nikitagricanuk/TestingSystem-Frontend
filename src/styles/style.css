@@ -265,20 +265,32 @@
     .marginFinishButton {
         margin-left: 50px !important;
     }
+    .testName {
+        font-size: 24px;
+    }
+    .testDate {
+        font-size: 16px;
+    }
+    .timeInTimer {
+        font-size: 24px;
+    }
+    .textForTime {
+        font-size: 16px;
+    }
 }
 
 @media (max-width: 480px) {
     .marginFinishButton {
         margin-left: 5vw !important;
     }
-    .marginNextPrevButton {
-        margin-left: 18px !important;
-    }
-
     .finishButton {
         width: 113px;
         height: 45px;
         font-size: 16px;
+    }
+
+    .marginNextPrevButton {
+        margin-left: 18px !important;
     }
 
     .nextQuestionButton {
@@ -299,15 +311,21 @@
     }
     /*  */
 
-    .testName {
-        font-size: 24px;
+    .textForTime {
+        font-size: 14px;
     }
-    .testDate {
+    .testName {
         font-size: 16px;
     }
+
+    .testDate {
+        font-size: 12px;
+    }
+
     .timeInTimer {
         font-size: 24px;
     }
+
     .Timer {
         width: 100px;
         height: 42px;
@@ -325,6 +343,21 @@
         margin-top: 36px;
     }
     .errorButton {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .testName {
+        font-size: 24px;
+    }
+    .testDate {
+        font-size: 16px;
+    }
+    .timeInTimer {
+        font-size: 24px;
+    }
+    .textForTime {
         font-size: 16px;
     }
 }

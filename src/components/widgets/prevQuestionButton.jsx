@@ -1,10 +1,10 @@
 import Button from "../ui/button/Button.jsx";
-import { ReactComponent as Arrow } from "../../assets/arrow.svg";
+import Arrow from "../../assets/arrow.svg";
 
 const PrevQuestionButton = (props) => {
     return (
         <Button className="prevQuestionButton" {...props}>
-            <Arrow className="Arrow" />
+            <img src={Arrow} alt="" />
         </Button>
     );
 };

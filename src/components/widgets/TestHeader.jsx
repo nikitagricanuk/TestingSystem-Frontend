@@ -1,10 +1,15 @@
-import { ReactComponent as Logo } from "../../assets/Logo.svg";
+import Logo from "../../assets/Logo.svg";
+import MiniLogo from "../../assets/miniLogo.svg";
 import Timer from "./Timer";
 
 const TestHeader = (props) => {
     return (
         <header className="header">
-            <Logo />
+            <picture>
+                <source media="(max-width: 768px)" srcSet={MiniLogo} />
+                <source media="(min-width: 1024px)" srcSet={Logo} />
+                <img src={Logo} alt="Логотип компании" />
+            </picture>
             <div className="textForTestHeader">
                 <div className="testName">{props.testName}</div>
                 <div className="testDate">{props.testDate}</div>
