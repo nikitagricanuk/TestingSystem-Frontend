@@ -20,10 +20,28 @@ const TestPage = () => {
     const [sid, setSid] = useState(null);
     const [data, setData] = useState(null);
     const [timeout, setTimeoutFlag] = useState(false);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     let content;
 
     //localStorage.clear();
+
+    const handleNextQuestion = async () => {
+        setError(null);
+        try {
+            await sendAnswer(questionNumber, 1, selectedAnswers);
+            if (questionNumber <= data?.total_questions) {
+                setQuestionNumber(questionNumber + 1);
+            }
+        } catch (err) {
+            if (err.response && err.response.status === 429) {
+                setError("Слишком много запросов. Пожалуйста, подождите.");
+                alert("Минимальное время для ответа - это 5 секунд");
+            } else {
+                setError("Произошла ошибка. Попробуйте еще раз.");
+            }
+        }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -107,27 +125,7 @@ const TestPage = () => {
                         />
                     </div>
                     <div className="marginNextPrevButton">
-                        <NextQuestionButton
-                            onClick={() => {
-                                if (
-                                    questionNumber < data?.total_questions ||
-                                    0
-                                ) {
-                                    sendAnswer(
-                                        questionNumber,
-                                        1,
-                                        selectedAnswers
-                                    );
-                                    setSelectedAnswers({});
-                                }
-                                if (
-                                    questionNumber <= data?.total_questions ||
-                                    0
-                                ) {
-                                    setQuestionNumber(questionNumber + 1);
-                                }
-                            }}
-                        />
+                        <NextQuestionButton onClick={handleNextQuestion} />
                     </div>
                     <div className="marginFinishButton">
                         <FinishButton />
@@ -136,12 +134,25 @@ const TestPage = () => {
             </div>
         );
     } else if (timeout) {
-        content = <div>TIMEOUT</div>;
+        content = (
+            <div
+                style={{
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <div style={{ justifyItems: "center" }}>
+                    <h1>Ошибка 408</h1>
+                    <h3>TIMEOUT</h3>
+                </div>
+            </div>
+        );
     } else {
         content = (
             <div className="loader-wrapper">
                 <div className="loader"></div>
-                <div className="textLoader">Загрузка теста</div>
+                <div>Подключение к серверу</div>
             </div>
         );
     }

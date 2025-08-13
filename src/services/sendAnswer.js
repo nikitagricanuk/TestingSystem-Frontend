@@ -11,7 +11,15 @@ export const sendAnswer = async (question_id, session_id = 1, answer) => {
             payload
         );
     } catch (err) {
-        console.error("Ошибка отправки ответа:", err);
-        throw err;
+        if (err.response) {
+            if (err.response.status === 429) {
+                console.error("Слишком много запросов. Пожалуйста, подождите.");
+                throw err;
+            } else {
+                console.error(`Ошибка отправки ответа: ${err.response.status}`);
+            }
+        } else {
+            console.error("Ошибка отправки ответа:", err);
+        }
     }
 };

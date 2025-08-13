@@ -59,16 +59,6 @@ const Questions = ({
                         ))}
                     </form>
                     <hr className="line" />
-                    <div
-                        style={{ display: "flex", justifyContent: "flex-end" }}
-                    >
-                        <Button
-                            className="errorButton"
-                            onClick={() => alert("Вы сообщили об ошибке")}
-                        >
-                            Сообщить об ошибке
-                        </Button>
-                    </div>
                 </div>
             </div>
         );
