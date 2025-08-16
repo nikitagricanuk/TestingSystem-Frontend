@@ -10,10 +10,8 @@ const Timer = ({ timeStart, timeEnd }) => {
     const handleTimerComplete = () => {
         if (hasRun.current) return;
         hasRun.current = true;
-
         alert("Время вышло!");
         submitTest();
-
         alert("Переход к результатам timer");
         // navigate("/result");
     };

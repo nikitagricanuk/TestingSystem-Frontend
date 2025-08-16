@@ -7,6 +7,7 @@ const Questions = ({
     setSelectedAnswers,
     totalQuestions,
     question,
+    infinityMode,
 }) => {
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -29,7 +30,7 @@ const Questions = ({
     };
 
     let content;
-    if (questionID < 1 || questionID > totalQuestions) {
+    if ((questionID < 1 || questionID > totalQuestions) && !infinityMode) {
         content = <div>Некорректный номер вопроса</div>;
     } else if (!question) {
         content = <div>Вопрос не найден</div>;
@@ -73,9 +74,12 @@ const Questions = ({
         }
     };
     const hasRedirected = useRef(false);
-
     useEffect(() => {
-        if (questionID > totalQuestions && !hasRedirected.current) {
+        if (
+            questionID > totalQuestions &&
+            !hasRedirected.current &&
+            !infinityMode
+        ) {
             hasRedirected.current = true;
             goToResult();
         }

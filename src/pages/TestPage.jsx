@@ -23,26 +23,28 @@ const TestPage = () => {
     const [sid, setSid] = useState(null);
     const [data, setData] = useState(null);
     const [timeout, setTimeoutFlag] = useState(false);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const [noQuestion, setNoQuestion] = useState(false); //закончились вопросы или нет
+    const [infinityMode, setInfinityMode] = useState(false);
     let content;
 
     //localStorage.clear();
 
     const handleNextQuestion = async () => {
-        setError(null);
         try {
             await sendAnswer(questionNumber, 1, selectedAnswers);
             setSelectedAnswers({});
-            if (questionNumber <= data?.total_questions) {
+            const canIncrement =
+                data?.indefinite_questions ||
+                questionNumber <= data?.total_questions;
+            if (canIncrement) {
                 setQuestionNumber((prev) => prev + 1);
             }
         } catch (err) {
             if (err.response?.status === 429) {
-                setError("Слишком много запросов. Пожалуйста, подождите.");
                 toast.error("Минимальное время для ответа - 5 секунд");
             } else {
-                setError("Произошла ошибка. Попробуйте еще раз.");
+                console.error("Ошибка при получении вопроса");
             }
         }
     };
@@ -51,7 +53,6 @@ const TestPage = () => {
         async function fetchData() {
             try {
                 let sidFromStorage = localStorage.getItem("Sid");
-
                 if (!sidFromStorage) {
                     const { data } = await startTest(1);
                     sidFromStorage = data.sid;
@@ -60,7 +61,6 @@ const TestPage = () => {
                     setData(data);
                     return;
                 }
-
                 setSid(sidFromStorage);
                 const { data } = await getSessionInfo(sidFromStorage);
                 setData(data);
@@ -72,7 +72,6 @@ const TestPage = () => {
                 }
             }
         }
-
         fetchData();
     }, []);
 
@@ -83,8 +82,10 @@ const TestPage = () => {
     useEffect(() => {
         const loadQuestionByID = async () => {
             try {
-                if (data !== null && questionNumber <= data?.total_questions) {
-                    console.log(questionNumber, "из", data?.total_questions);
+                if (
+                    data?.indefinite_questions ||
+                    (data !== null && questionNumber <= data?.total_questions)
+                ) {
                     const q = await getQuestion(questionNumber, sid);
                     setQuestion(q.data);
                 } else {
@@ -93,12 +94,27 @@ const TestPage = () => {
                     );
                 }
             } catch (err) {
-                console.error("Ошибка при загрузке вопроса:", err);
+                if (err.response?.status == 404) {
+                    setNoQuestion(true);
+                } else {
+                    console.error("Ошибка при загрузке вопроса:", err);
+                }
             }
         };
-
         loadQuestionByID();
     }, [questionNumber, data]);
+
+    useEffect(() => {
+        if (
+            questionNumber > data?.total_questions &&
+            data?.indefinite_questions
+        ) {
+            setInfinityMode(true);
+            toast.info("Переход в бесконечный режим");
+        } else {
+            setInfinityMode(false);
+        }
+    }, [questionNumber, data?.total_questions, data?.indefinite_questions]);
 
     if (data && question) {
         content = (
@@ -112,12 +128,14 @@ const TestPage = () => {
                 <ProgressBar
                     QuestionsLenght={data?.total_questions || 0}
                     questionNumber={questionNumber}
+                    infinityMode={infinityMode}
                 />
                 <Questions
                     questionID={questionNumber}
                     setSelectedAnswers={setSelectedAnswers}
                     totalQuestions={data?.total_questions}
                     question={question}
+                    infinityMode={data?.indefinite_questions}
                 />
                 <ToastContainer />
                 <div className="testFooter">
@@ -154,6 +172,9 @@ const TestPage = () => {
                 </div>
             </div>
         );
+    } else if (noQuestion) {
+        content = <div>Вопросы закончились. Переход к результатам</div>;
+        //TODO переход на страницу с результатами
     } else {
         content = <Loader />;
     }

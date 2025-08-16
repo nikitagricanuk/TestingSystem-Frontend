@@ -12,30 +12,23 @@ const useTimer = ({ startTime, endTime, onComplete = () => {} }) => {
             onComplete();
             return;
         }
-
         const updateTimer = () => {
             const now = Date.now();
             const remainingTime = endTime - now;
-
             if (remainingTime <= 0) {
                 clearInterval(timer);
                 setMinutes(0);
                 setSeconds(0);
-
                 onComplete();
-
                 return;
             }
-
             setMinutes(Math.floor((remainingTime / 1000 / 60) % 60));
             setSeconds(Math.floor((remainingTime / 1000) % 60));
         };
-
         if (startTime && endTime) {
             updateTimer();
             timer = setInterval(updateTimer, 1000);
         }
-
         return () => clearInterval(timer);
     }, [startTime, endTime, onComplete]);
 
