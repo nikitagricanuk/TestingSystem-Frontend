@@ -1,38 +1,56 @@
+// useTimer.js
 import { useEffect, useState } from "react";
 
 const useTimer = ({ startTime, endTime, onComplete = () => {} }) => {
+    const [remainingTime, setRemainingTime] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
         let timer;
-        if (!startTime || !endTime || startTime >= endTime) {
+        const isValidTime =
+            startTime && endTime && !isNaN(startTime) && !isNaN(endTime);
+
+        if (!isValidTime) {
+            setRemainingTime(0);
+            setMinutes(0);
+            setSeconds(0);
+            return;
+        }
+
+        if (startTime >= endTime) {
+            setRemainingTime(0);
             setMinutes(0);
             setSeconds(0);
             onComplete();
             return;
         }
+
         const updateTimer = () => {
             const now = Date.now();
-            const remainingTime = endTime - now;
-            if (remainingTime <= 0) {
+            const timeRemaining = endTime - now;
+
+            if (timeRemaining <= 0) {
                 clearInterval(timer);
+                setRemainingTime(0);
                 setMinutes(0);
                 setSeconds(0);
                 onComplete();
                 return;
             }
-            setMinutes(Math.floor((remainingTime / 1000 / 60) % 60));
-            setSeconds(Math.floor((remainingTime / 1000) % 60));
+
+            setRemainingTime(timeRemaining);
+            setMinutes(Math.floor((timeRemaining / 1000 / 60) % 60));
+            setSeconds(Math.floor((timeRemaining / 1000) % 60));
         };
-        if (startTime && endTime) {
-            updateTimer();
-            timer = setInterval(updateTimer, 1000);
-        }
+
+        updateTimer();
+        timer = setInterval(updateTimer, 1000);
+
         return () => clearInterval(timer);
     }, [startTime, endTime, onComplete]);
 
-    return { minutes, seconds };
+    return { minutes, seconds, remainingTime };
 };
 
 export default useTimer;

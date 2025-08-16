@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Questions from "../components/widgets/Question.jsx";
 import TestHeader from "../components/widgets/TestHeader.jsx";
 import NextQuestionButton from "../components/widgets/NextQuestionButton.jsx";
@@ -13,6 +13,8 @@ import { getSessionInfo } from "../services/getSessionInfo.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "../components/ui/loader/Loader.jsx";
+import { submitTest } from "../services/submitTest.js";
+import useTimer from "../hooks/useTimer.js";
 
 const TestPage = () => {
     const initialQuestionNumber =
@@ -26,6 +28,7 @@ const TestPage = () => {
     const navigate = useNavigate();
     const [noQuestion, setNoQuestion] = useState(false); //закончились вопросы или нет
     const [infinityMode, setInfinityMode] = useState(false);
+    const hasRun = useRef(false);
     let content;
 
     //localStorage.clear();
@@ -116,19 +119,38 @@ const TestPage = () => {
         }
     }, [questionNumber, data?.total_questions, data?.indefinite_questions]);
 
+    const handleTimerComplete = useCallback(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+        alert("Время вышло!");
+        submitTest();
+        alert("Переход к результатам timer");
+        // navigate("/result");
+    }, []);
+    const { minutes, seconds, remainingTime } = useTimer({
+        startTime: Date.parse(data?.time_start),
+        endTime: Date.parse(data?.time_finish),
+        onComplete: handleTimerComplete,
+    });
+    const totalDuration =
+        Date.parse(data?.time_finish) - Date.parse(data?.time_start);
+    const progressValue =
+        totalDuration > 0 ? (totalDuration - remainingTime) / totalDuration : 0;
+
     if (data && question) {
         content = (
             <div>
                 <TestHeader
                     testName={"Ежемесячное тестирование по математике"}
                     testDate={"Сентябрь 2025"}
-                    timeStart={data?.time_start}
-                    timeEnd={data?.time_finish}
+                    minutes={minutes}
+                    seconds={seconds}
                 />
                 <ProgressBar
                     QuestionsLenght={data?.total_questions || 0}
                     questionNumber={questionNumber}
                     infinityMode={infinityMode}
+                    progress={progressValue}
                 />
                 <Questions
                     questionID={questionNumber}
