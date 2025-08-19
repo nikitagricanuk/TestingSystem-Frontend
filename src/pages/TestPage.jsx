@@ -63,7 +63,7 @@ const TestPage = () => {
         if (hasRun.current) return;
         hasRun.current = true;
         alert("Время вышло!");
-        submitTest();
+        submitTest(sid);
         alert("Переход к результатам timer");
         // navigate("/result");
     }, []);
@@ -82,7 +82,7 @@ const TestPage = () => {
     if (timeout) {
         content = <TimeoutError />;
     } else if (noQuestion) {
-        content = <NoQuestions />;
+        content = <NoQuestions sid={sid} />;
     } else if (!data || !question) {
         content = <Loader />;
     } else {
@@ -112,6 +112,7 @@ const TestPage = () => {
                     questionNumber={questionNumber}
                     setQuestionNumber={setQuestionNumber}
                     handleNextQuestion={handleNextQuestion}
+                    sid={sid}
                 />
             </div>
         );

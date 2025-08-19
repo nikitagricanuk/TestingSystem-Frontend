@@ -1,8 +1,18 @@
+import { useNavigate } from "react-router-dom";
 import FinishButton from "./FinishButton";
 import NextQuestionButton from "./NextQuestionButton";
 import PrevQuestionButton from "./prevQuestionButton";
+import { submitTest } from "../../services/submitTest";
 
 const TestFooter = (props) => {
+    const navigate = useNavigate();
+
+    const finishTest = () => {
+        submitTest(props.sid);
+        alert("Переход к результатам");
+        // navigate("/result");};
+    };
+
     return (
         <div className="testFooter">
             <div>
@@ -18,7 +28,7 @@ const TestFooter = (props) => {
                 <NextQuestionButton onClick={props.handleNextQuestion} />
             </div>
             <div className="marginFinishButton">
-                <FinishButton />
+                <FinishButton onClick={finishTest} />
             </div>
         </div>
     );

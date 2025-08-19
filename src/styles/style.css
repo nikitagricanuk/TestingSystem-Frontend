@@ -5,8 +5,20 @@
 * {
     font-family: "Inter", sans-serif;
     font-optical-sizing: auto;
-
     font-style: normal;
+}
+
+.Logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.Logo img {
+    display: block;
+}
+
+.Logo source {
+    display: none;
 }
 
 .finishButton {
@@ -78,6 +90,7 @@
 .textForTestHeader {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 .timeInTimer {
@@ -97,6 +110,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 .headQuestion {
@@ -311,7 +325,7 @@
 
     .Timer {
         width: 100px;
-        height: 42px;
+        height: auto;
     }
     .headQuestion {
         font-size: 20px;
