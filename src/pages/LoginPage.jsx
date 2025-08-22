@@ -1,7 +1,9 @@
+import LoginCard from "../components/widgets/LoginCard";
+
 const LoginPage = () => {
     return (
         <div>
-            <h1>Login page</h1>
+            <LoginCard />
         </div>
     );
 };
