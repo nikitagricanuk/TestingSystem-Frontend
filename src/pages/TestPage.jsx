@@ -65,7 +65,8 @@ const TestPage = () => {
         alert("Время вышло!");
         submitTest(sid);
         alert("Переход к результатам timer");
-        // navigate("/result");
+        localStorage.clear();
+        navigate("/result");
     }, []);
 
     const { minutes, seconds, remainingTime } = useTimer({

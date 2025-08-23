@@ -70,7 +70,8 @@ const Questions = ({
             goToResult.hasRun = true;
             submitTest();
             alert("Переход к результатам");
-            // navigate("/result");
+            localStorage.clear();
+            navigate("/result");
         }
     };
     const hasRedirected = useRef(false);

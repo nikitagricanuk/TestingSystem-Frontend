@@ -2,8 +2,11 @@ import LoginCard from "../components/widgets/LoginCard";
 
 const LoginPage = () => {
     return (
-        <div>
+        <div className="loginPage">
             <LoginCard />
+            <div className="loginAsideText">
+                Твой путь к знаниям начинается здесь!
+            </div>
         </div>
     );
 };

@@ -10,7 +10,8 @@ const TestFooter = (props) => {
     const finishTest = () => {
         submitTest(props.sid);
         alert("Переход к результатам");
-        // navigate("/result");};
+        localStorage.clear();
+        navigate("/result");
     };
 
     return (
