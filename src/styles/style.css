@@ -28,14 +28,12 @@ body {
 }
 
 .loginLogo {
-    margin-left: 78px;
     margin-top: 48px;
     margin-bottom: 51px;
 }
 
 .headerLogin {
     display: flex;
-    /* margin-left: 78px; */
 }
 
 .loginCard {
@@ -46,6 +44,17 @@ body {
     border: 1px solid #b0b0b0;
     margin-left: 92px;
     margin-top: 87px;
+}
+
+.loginEnterButton {
+    box-sizing: border-box;
+    border: 3px solid #4c9df4;
+    border-radius: 10px;
+    width: 199px;
+    height: 48px;
+    background-color: white;
+    font-size: 19px;
+    margin-left: 70px;
 }
 
 .loginAsideText {
@@ -60,8 +69,43 @@ body {
     align-content: center;
 }
 
+.logninInput {
+    box-sizing: border-box;
+    border-radius: 10px;
+    width: 460px;
+    height: 43px;
+    background-color: #e3e3e3;
+    border: none;
+    font-size: 20px;
+    padding-left: 7px;
+}
+
+.remember input {
+    display: none;
+}
+.remember {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+.customCheckbox {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #a1a1a1;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+}
+
+.remember input:checked + .customCheckbox {
+    background-color: e3e3e3;
+}
+
 .loginPage {
     display: flex;
+    justify-content: center;
     position: relative;
     height: 100vh;
     min-width: 100%;

@@ -10,9 +10,11 @@ function App() {
                 <Routes>
                     <Route path="/test" element={<TestPage />} />
                     <Route path="*" element={<ErrorPage />} />
+
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={<LoginPage />} />
                 </Routes>
-            </BrowserRouter>{" "}
+            </BrowserRouter>
         </div>
     );
 }
