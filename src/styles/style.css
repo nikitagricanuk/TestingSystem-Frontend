@@ -100,7 +100,7 @@ body {
 }
 
 .remember input:checked + .customCheckbox {
-    background-color: e3e3e3;
+    background-color: #e3e3e3;
 }
 
 .loginPage {
