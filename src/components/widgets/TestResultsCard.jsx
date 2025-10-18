@@ -93,8 +93,6 @@ const TestResultsCard = (props) => {
                             style={{
                                 fontSize: "23px",
                                 display: "grid",
-
-                                // flexDirection: "column",
                             }}
                         >
                             <div
