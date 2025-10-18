@@ -80,7 +80,7 @@ const TestResultsCard = (props) => {
                     <picture>
                         <img srcSet={BackGround} />
                     </picture>
-                    <div>
+                    <div style={{ marginLeft: "33px" }}>
                         <span
                             style={{
                                 fontWeight: "bolder",
@@ -89,16 +89,49 @@ const TestResultsCard = (props) => {
                         >
                             Информация о попытке
                         </span>
-                        <div>
-                            <div>
-                                Затраченное время
-                                <span>40:00</span>
+                        <div
+                            style={{
+                                fontSize: "23px",
+                                display: "grid",
+
+                                // flexDirection: "column",
+                            }}
+                        >
+                            <div
+                                style={{
+                                    marginTop: "22px",
+                                    marginRight: "35px",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div>Затраченное время</div>
+                                <div>40:00</div>
                             </div>
-                            <div>
-                                Решено задач <span>40</span>
+                            <div
+                                style={{
+                                    marginTop: "22px",
+                                    marginRight: "35px",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div>Решено задач</div>
+                                <div>40</div>
                             </div>
-                            <div>
-                                Верных ответов <span>36</span>
+                            <div
+                                style={{
+                                    marginTop: "22px",
+                                    marginRight: "35px",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div>Верных ответов</div>
+                                <div>36</div>
                             </div>
                         </div>
                     </div>

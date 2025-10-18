@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { submitTest } from "../../../services/submitTest";
+import { useTestContext } from "../../../utils/TestContext";
 
 const NoQuestions = (props) => {
+    const navigate = useNavigate();
+    const { setIsTestCompleted } = useTestContext();
+
     const finishTest = () => {
         submitTest(props.sid);
+        setIsTestCompleted(true);
         alert("Переход к результатам");
-        // navigate("/result");};
+        localStorage.clear();
+        navigate("/result");
     };
 
     useEffect(() => {
@@ -30,5 +36,5 @@ const NoQuestions = (props) => {
         </div>
     );
 };
-//TODO переход к результатам
+
 export default NoQuestions;
