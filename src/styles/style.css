@@ -399,6 +399,22 @@ body {
     flex-direction: column;
 }
 
+.activePage {
+    background-color: white;
+    width: 220px;
+    height: 42px;
+    border-radius: 21px;
+    display: flex;
+    align-content: center;
+}
+
+.NoActivePage {
+    width: 220px;
+    height: 42px;
+    display: flex;
+    align-content: center;
+}
+
 .loader {
     width: 120px;
     height: 100px;
