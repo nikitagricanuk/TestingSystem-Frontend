@@ -37,35 +37,35 @@ const TestResultsCard = (props) => {
                     >
                         Задание сделано "ДАТА из запроса"
                     </p>
-                    <div style={{ justifyContent: "center", display: "grid" }}>
-                        <span
+                    <div
+                        style={{
+                            display: "grid",
+                            marginLeft: "57px",
+                        }}
+                    >
+                        <div
                             style={{
                                 fontSize: "250px",
                                 fontWeight: "bold",
-                                justifyContent: "center",
-                                display: "flex",
                             }}
                         >
-                            60
-                        </span>
-                        <span
+                            64
+                        </div>
+                        <div
                             style={{
                                 fontSize: "48px",
-                                justifyContent: "center",
-                                display: "flex",
+                                fontWeight: "600",
                             }}
                         >
                             балла(ов). Отлично!
-                        </span>
-                        <span
+                        </div>
+                        <div
                             style={{
                                 marginTop: "66px",
-                                justifyContent: "center",
-                                display: "flex",
                             }}
                         >
                             <ToMyResultsButton />
-                        </span>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -81,14 +81,14 @@ const TestResultsCard = (props) => {
                         <img srcSet={BackGround} />
                     </picture>
                     <div style={{ marginLeft: "33px" }}>
-                        <span
+                        <div
                             style={{
                                 fontWeight: "bolder",
                                 fontSize: "33px",
                             }}
                         >
                             Информация о попытке
-                        </span>
+                        </div>
                         <div
                             style={{
                                 fontSize: "23px",

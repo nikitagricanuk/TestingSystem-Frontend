@@ -1,9 +1,10 @@
 import Button from "../ui/button/Button.jsx";
-
+import Arrow from "../../assets/arrowForToResBut.svg";
 const ToMyResultsButton = (props) => {
     return (
         <Button className="ToMyResultsButton" {...props}>
-            К результатам
+            <div>К результатам</div>
+            <img srcSet={Arrow} alt="arrow" />
         </Button>
     );
 };
