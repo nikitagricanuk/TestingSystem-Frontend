@@ -333,6 +333,16 @@ body {
     height: 100%;
 }
 
+.ToMyResultsButton {
+    color: white;
+    font-size: 28px;
+    width: 296px;
+    height: 70px;
+    border-radius: 30px;
+    background: transparent;
+    border: 3px solid #fff;
+}
+
 .loader-wrapper {
     position: fixed;
     inset: 0;
