@@ -3,15 +3,23 @@ import FinishButton from "./FinishButton";
 import NextQuestionButton from "./NextQuestionButton";
 import PrevQuestionButton from "./prevQuestionButton";
 import { submitTest } from "../../services/submitTest";
+import { useTestContext } from "../../utils/TestContext";
 
 const TestFooter = (props) => {
     const navigate = useNavigate();
+    const { setIsTestCompleted } = useTestContext();
 
-    const finishTest = () => {
-        submitTest(props.sid);
-        alert("Переход к результатам");
-        localStorage.clear();
-        navigate("/result");
+    const finishTest = async () => {
+        try {
+            submitTest(props.sid);
+            setIsTestCompleted(true);
+            alert("Переход к результатам");
+            localStorage.clear();
+            navigate("/result");
+        } catch (error) {
+            console.error("Ошибка при завершении теста:", error);
+            alert("Ошибка при отправке результатов. Попробуйте позже.");
+        }
     };
 
     return (
@@ -25,9 +33,11 @@ const TestFooter = (props) => {
                     }}
                 />
             </div>
+
             <div className="marginNextPrevButton">
                 <NextQuestionButton onClick={props.handleNextQuestion} />
             </div>
+
             <div className="marginFinishButton">
                 <FinishButton onClick={finishTest} />
             </div>

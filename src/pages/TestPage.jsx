@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useTimer from "../hooks/useTimer.js";
 import { useTestSession } from "../hooks/useTestSession.js";
 import { useQuestionNavigation } from "../hooks/useQuestionNavigation.js";
+import { useTestContext } from "../utils/TestContext.js";
 
 import { submitTest } from "../services/submitTest.js";
 
@@ -26,8 +27,7 @@ const TestPage = () => {
     const hasRun = useRef(false);
     let content;
 
-    //localStorage.clear();
-
+    const { setIsTestCompleted } = useTestContext();
     const {
         question,
         questionNumber,
@@ -64,10 +64,10 @@ const TestPage = () => {
         hasRun.current = true;
         alert("Время вышло!");
         submitTest(sid);
-        alert("Переход к результатам timer");
+        setIsTestCompleted(true);
         localStorage.clear();
         navigate("/result");
-    }, []);
+    }, [sid, navigate, setIsTestCompleted]);
 
     const { minutes, seconds, remainingTime } = useTimer({
         startTime: Date.parse(data?.time_start),
@@ -107,6 +107,7 @@ const TestPage = () => {
                     totalQuestions={data?.total_questions}
                     question={question}
                     infinityMode={data?.indefinite_questions}
+                    sid={sid}
                 />
                 <ToastContainer />
                 <TestFooter

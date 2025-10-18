@@ -2,79 +2,38 @@ import Answer from "../ui/answer/Answer";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { submitTest } from "../../services/submitTest";
+import { useTestContext } from "../../utils/TestContext";
+
 const Questions = ({
     questionID,
     setSelectedAnswers,
     totalQuestions,
     question,
     infinityMode,
+    sid,
 }) => {
+    const { setIsTestCompleted } = useTestContext();
+    const navigate = useNavigate();
+
     const handleAnswerChange = (event) => {
         const { name, value, type, checked } = event.target;
-
         setSelectedAnswers((prevAnswers) => {
             if (type === "checkbox") {
                 const prev = prevAnswers[name] || [];
-                if (checked) {
-                    return { ...prevAnswers, [name]: [...prev, value] };
-                } else {
-                    return {
-                        ...prevAnswers,
-                        [name]: prev.filter((v) => v !== value),
-                    };
-                }
+                return checked
+                    ? { ...prevAnswers, [name]: [...prev, value] }
+                    : {
+                          ...prevAnswers,
+                          [name]: prev.filter((v) => v !== value),
+                      };
             } else {
                 return { ...prevAnswers, [name]: [value] };
             }
         });
     };
 
-    let content;
-    if ((questionID < 1 || questionID > totalQuestions) && !infinityMode) {
-        content = <div>Некорректный номер вопроса</div>;
-    } else if (!question) {
-        content = <div>Вопрос не найден</div>;
-    } else {
-        content = (
-            <div>
-                <div className="headQuestion">
-                    Выберите правильный вариант ответа
-                </div>
-                <div className="Question">
-                    <div className="questionText">{question.question}</div>
-                    <form>
-                        {question.choices.map((choice, question_id) => (
-                            <Answer
-                                key={`${questionID}-${question_id}`}
-                                type={question.category}
-                                name={`question-${questionID}`}
-                                value={choice}
-                                id={`question-${questionID}-${question_id}`}
-                                className="answer"
-                                classNameLabel="answerText"
-                                onChange={handleAnswerChange}
-                            >
-                                {choice}
-                            </Answer>
-                        ))}
-                    </form>
-                    <hr className="line" />
-                </div>
-            </div>
-        );
-    }
-
-    const navigate = useNavigate();
-    const goToResult = () => {
-        if (!goToResult.hasRun) {
-            goToResult.hasRun = true;
-            submitTest();
-            alert("Переход к результатам");
-            localStorage.clear();
-            navigate("/result");
-        }
-    };
     const hasRedirected = useRef(false);
+
     useEffect(() => {
         if (
             questionID > totalQuestions &&
@@ -82,11 +41,47 @@ const Questions = ({
             !infinityMode
         ) {
             hasRedirected.current = true;
-            goToResult();
+            submitTest(sid);
+            setIsTestCompleted(true);
+            localStorage.clear();
+            navigate("/result");
         }
-    }, [questionID, totalQuestions]);
+    }, [questionID, totalQuestions, infinityMode, sid]);
 
-    return <div className="QuestionComponent">{content}</div>;
+    if ((questionID < 1 || questionID > totalQuestions) && !infinityMode) {
+        return <div>Некорректный номер вопроса</div>;
+    }
+    if (!question) {
+        return <div>Вопрос не найден</div>;
+    }
+
+    return (
+        <div className="QuestionComponent">
+            <div className="headQuestion">
+                Выберите правильный вариант ответа
+            </div>
+            <div className="Question">
+                <div className="questionText">{question.question}</div>
+                <form>
+                    {question.choices.map((choice, question_id) => (
+                        <Answer
+                            key={`${questionID}-${question_id}`}
+                            type={question.category}
+                            name={`question-${questionID}`}
+                            value={choice}
+                            id={`question-${questionID}-${question_id}`}
+                            className="answer"
+                            classNameLabel="answerText"
+                            onChange={handleAnswerChange}
+                        >
+                            {choice}
+                        </Answer>
+                    ))}
+                </form>
+                <hr className="line" />
+            </div>
+        </div>
+    );
 };
 
 export default Questions;
