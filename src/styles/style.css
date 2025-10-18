@@ -346,6 +346,50 @@ body {
     border: 2px solid #fff;
 }
 
+.attemptInfo {
+    margin-top: 22px;
+    margin-right: 35px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.rightSideCard {
+    width: 546px;
+    height: 712px;
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
+    background-color: #818cf8;
+}
+
+.dateCompleteTest {
+    margin-top: 42px;
+    justify-content: center;
+    display: flex;
+}
+
+.leftSideCard {
+    width: 520px;
+    height: 712px;
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+    background-color: #5a9bea;
+}
+
+.resultCard {
+    color: white;
+    width: 1066px;
+    height: 713px;
+    border-radius: 22px;
+    display: flex;
+}
+
+.TestResultsCard {
+    display: flex;
+    justify-content: center;
+    margin-top: 79px;
+}
+
 .loader-wrapper {
     position: fixed;
     inset: 0;

@@ -3,38 +3,10 @@ import BackGround from "../../assets/backgroundForTestRsults.png";
 
 const TestResultsCard = (props) => {
     return (
-        <div
-            style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "79px",
-            }}
-        >
-            <div
-                style={{
-                    color: "white",
-                    width: "1066px",
-                    height: "713px",
-                    borderRadius: "22px",
-                    display: "flex",
-                }}
-            >
-                <div
-                    style={{
-                        width: "520px",
-                        height: "712px",
-                        borderTopLeftRadius: "22px",
-                        borderBottomLeftRadius: "22px",
-                        backgroundColor: "#5A9BEA",
-                    }}
-                >
-                    <p
-                        style={{
-                            marginTop: "42px",
-                            justifyContent: "center",
-                            display: "flex",
-                        }}
-                    >
+        <div className="TestResultsCard">
+            <div className="resultCard">
+                <div className="leftSideCard">
+                    <p className="dateCompleteTest">
                         Задание сделано "ДАТА из запроса"
                     </p>
                     <div
@@ -68,15 +40,7 @@ const TestResultsCard = (props) => {
                         </div>
                     </div>
                 </div>
-                <div
-                    style={{
-                        width: "546px",
-                        height: "712px",
-                        borderTopRightRadius: "22px",
-                        borderBottomRightRadius: "22px",
-                        backgroundColor: "#818CF8",
-                    }}
-                >
+                <div className="rightSideCard">
                     <picture>
                         <img srcSet={BackGround} />
                     </picture>
@@ -95,39 +59,15 @@ const TestResultsCard = (props) => {
                                 display: "grid",
                             }}
                         >
-                            <div
-                                style={{
-                                    marginTop: "22px",
-                                    marginRight: "35px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                }}
-                            >
+                            <div className="attemptInfo">
                                 <div>Затраченное время</div>
                                 <div>40:00</div>
                             </div>
-                            <div
-                                style={{
-                                    marginTop: "22px",
-                                    marginRight: "35px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                }}
-                            >
+                            <div className="attemptInfo">
                                 <div>Решено задач</div>
                                 <div>40</div>
                             </div>
-                            <div
-                                style={{
-                                    marginTop: "22px",
-                                    marginRight: "35px",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                }}
-                            >
+                            <div className="attemptInfo">
                                 <div>Верных ответов</div>
                                 <div>36</div>
                             </div>
