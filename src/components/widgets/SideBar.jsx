@@ -6,12 +6,13 @@ const SideBar = (props) => {
         <div
             style={{
                 width: "308px",
-                border: "1px solid black",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 height: "100vh",
                 boxSizing: "border-box",
+                backgroundColor: "#FFFFFF",
+                borderRight: "1px solid #D7D7D7",
             }}
         >
             <div>

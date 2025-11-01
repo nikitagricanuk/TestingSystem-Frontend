@@ -1,16 +1,13 @@
-import SideBar from "../components/widgets/SideBar";
+import SidebarAndAccount from "../components/widgets/SidebarAndAccount";
 
 const SettingsPage = () => {
     return (
         <div
             style={{
-                display: "flex",
+                backgroundColor: "#F4F5F7",
             }}
         >
-            <SideBar />
-            <div style={{ justifyItems: "center" }}>
-                <h3>Настройки</h3>
-            </div>
+            <SidebarAndAccount pageName="Настройки" />
         </div>
     );
 };

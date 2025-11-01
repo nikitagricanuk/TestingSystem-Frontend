@@ -1,16 +1,13 @@
-import SideBar from "../components/widgets/SideBar";
+import SidebarAndAccount from "../components/widgets/SidebarAndAccount";
 
 const RatingPage = () => {
     return (
         <div
             style={{
-                display: "flex",
+                backgroundColor: "#F4F5F7",
             }}
         >
-            <SideBar />
-            <div style={{ justifyItems: "center" }}>
-                <h3>Рейтинг</h3>
-            </div>
+            <SidebarAndAccount pageName="Рейтинг" />
         </div>
     );
 };

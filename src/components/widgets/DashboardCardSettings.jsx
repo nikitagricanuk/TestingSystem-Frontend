@@ -7,7 +7,7 @@ import ExitIconNoActive from "../../assets/exitIconNoActive.svg";
 const navItems = [
     {
         id: "settings",
-        label: "Главная",
+        label: "Настройки",
         path: "/settings",
         iconActive: SetingsIconActive,
         iconInactive: SetingsIconNoActive,
