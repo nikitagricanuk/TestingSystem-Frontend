@@ -7,13 +7,15 @@ const PagesHeader = (props) => {
                 display: "flex",
                 justifyContent: "space-between",
                 boxSizing: "border-box",
+                marginTop: "12px",
+                marginLeft: "33px",
+                marginRight: "32px",
             }}
         >
             <div
                 style={{
                     fontSize: "33px",
                     fontWeight: "bold",
-                    marginLeft: "33px",
                 }}
             >
                 {props.pageName}

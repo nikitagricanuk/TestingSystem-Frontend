@@ -1,5 +1,5 @@
 # Этап сборки
-FROM node:24.5.0-alpine AS build
+FROM mirror.gcr.io/node:24.5.0-alpine AS build
 
 WORKDIR /app
 
@@ -13,7 +13,7 @@ RUN npm run build
 
 
 # Этап продакшен-сервера
-FROM nginx:alpine
+FROM mirror.gcr.io/nginx:alpine
 
 # Копируем кастомный конфиг
 COPY nginx.conf /etc/nginx/conf.d/default.conf

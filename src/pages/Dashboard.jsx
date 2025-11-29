@@ -1,3 +1,4 @@
+import CurrentTestWidget from "../components/widgets/CurrentTestWidget";
 import SidebarAndAccount from "../components/widgets/SidebarAndAccount";
 
 const Dashboard = () => {
@@ -8,6 +9,7 @@ const Dashboard = () => {
             }}
         >
             <SidebarAndAccount />
+            <CurrentTestWidget />
         </div>
     );
 };
