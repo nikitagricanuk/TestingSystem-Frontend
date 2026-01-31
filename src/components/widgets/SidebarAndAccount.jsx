@@ -1,7 +1,7 @@
 import PagesHeader from "./PagesHeader";
 import SideBar from "./SideBar";
 
-const SidebarAndAccount = (props) => {
+const SidebarAndAccount = ({ pageName, children }) => {
     return (
         <div
             style={{
@@ -11,8 +11,11 @@ const SidebarAndAccount = (props) => {
             }}
         >
             <SideBar />
-            <div style={{ flex: 1 }}>
-                <PagesHeader pageName={props.pageName} />
+
+            <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+                <PagesHeader pageName={pageName} />
+
+                <div style={{ flex: 1 }}>{children}</div>
             </div>
         </div>
     );

@@ -20,6 +20,7 @@ const PagesHeader = (props) => {
             >
                 {props.pageName}
             </div>
+
             <AccountWidget />
         </div>
     );

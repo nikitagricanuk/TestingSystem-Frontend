@@ -79,7 +79,6 @@ const DashboardCardMenu = (props) => {
                                     style={{
                                         marginLeft: "12px",
                                         color: "black",
-                                        textDecoration: "none",
                                     }}
                                 >
                                     {item.label}
