@@ -1,5 +1,6 @@
 import CurrentTestWidget from "../components/widgets/CurrentTestWidget";
 import SidebarAndAccount from "../components/widgets/SidebarAndAccount";
+import UpcomingTestsCard from "../components/widgets/UpcomingTestCard";
 
 const Dashboard = () => {
     return (
@@ -13,6 +14,14 @@ const Dashboard = () => {
                     }}
                 >
                     <CurrentTestWidget />
+                </div>
+                <div
+                    style={{
+                        paddingLeft: "33px",
+                        marginTop: "16px",
+                    }}
+                >
+                    <UpcomingTestsCard />
                 </div>
             </SidebarAndAccount>
         </div>
