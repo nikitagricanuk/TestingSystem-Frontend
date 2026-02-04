@@ -1,0 +1,11 @@
+.latex{
+    margin-left: auto;
+    justify-content: center;
+    width: 521px;
+    height: 323px;
+    border: solid 1px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 2%;
+    background-color: white;
+    font-family: 'Times New Roman', Times, serif;
+}

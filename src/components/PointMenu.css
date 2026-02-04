@@ -1,0 +1,15 @@
+.pointMenu{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    margin: 18px;
+    transition: 0.05s;
+    height: 35px;
+}
+.pointMenu:hover{
+    border-bottom: 1.5px solid black;
+    /* border-bottom-width: 150px; */
+}
+img{
+    margin-right: 10px;
+}

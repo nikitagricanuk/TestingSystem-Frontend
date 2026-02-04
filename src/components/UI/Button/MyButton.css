@@ -1,0 +1,14 @@
+.createBut{
+    border: 1px solid rgba(229, 231, 234);
+    border-radius: 5px;
+    padding: auto;
+    padding-inline: 2%;
+    width: 100px;
+    height: 36px;
+    transition: 0.2s;
+
+}
+.createBut:hover{
+    background-color:  rgba(229, 231, 234);
+    border-radius: 10px;
+}
