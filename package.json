@@ -16,7 +16,9 @@
     "react-dom": "^19.1.1",
     "react-katex": "^3.1.0",
     "react-latex": "^2.0.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.0",
+    "redux": "^5.0.1",
     "tailwindcss": "^4.1.14"
   },
   "devDependencies": {

@@ -5,3 +5,6 @@ h1{
 h2{
     font-size: 28px;
 }
+button{
+    cursor: pointer;
+}

@@ -4,7 +4,7 @@ import './HeaderTable.css'
 function HeaderTable({ options, onSort }) {
   return (
     <div className='header'>
-        <div className='flex-1 m-2'>
+        <div style={{display: 'flex', flex: '1', margin: '8px', justifyContent: 'center', alignItems: 'center'}}>
             <input type="checkbox" name="" id=""/>
         </div>
 
@@ -16,6 +16,9 @@ function HeaderTable({ options, onSort }) {
                 </button>
             </div>
         )}
+        <div style={{textAlign: 'center'}} className='flex-1 m-2'>
+          <img src="src/assets/icon-change.svg" alt="" />
+        </div>
     </div>
   )
 }

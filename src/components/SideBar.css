@@ -1,9 +1,7 @@
 .mainBlock{
-    
-    
     position: fixed;
-      left: 0;
-  top: 0;
+    top: 0;
+    left: 0;
     background-color: white;
     width: 308px;
     height: 100vh;

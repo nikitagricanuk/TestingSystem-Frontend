@@ -4,7 +4,6 @@ import './SideBar.css'
 
 function SideBar() {
   return (
-    <>
         <div className='mainBlock'>
           <img src="src/assets/IRNITU-logo.svg" alt="irnitulogo" />
           <ul>
@@ -16,7 +15,6 @@ function SideBar() {
             <PointMenu icon='src/assets/icon-users.svg' title='Пользователи'/>
           </ul>
         </div>
-    </>
     )
 }
 
