@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useTimer from "../hooks/useTimer.js";
 import { useTestSession } from "../hooks/useTestSession.js";
 import { useQuestionNavigation } from "../hooks/useQuestionNavigation.js";
-import { useTestContext } from "../utils/TestContext.js";
+import { useTestContext } from "../utils/TestContext";
 
 import { submitTest } from "../services/submitTest.js";
 
