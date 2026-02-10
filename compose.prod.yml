@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  react-app:
+    image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION}
+    ports:
+      - "8002:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://localhost/ > /dev/null 2>&1"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
