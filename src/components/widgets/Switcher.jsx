@@ -15,10 +15,9 @@ const Switcher = ({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                marginBottom: "12px",
                 backgroundColor: "#F3F3F3",
                 borderRadius: "10px",
-                height: "36px",
+                height: "39px",
                 padding: "0 6px",
                 ...style,
             }}

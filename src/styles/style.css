@@ -19,6 +19,34 @@ body {
     display: block;
 }
 
+.DashboardWidgetCard {
+    background-color: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    width: 338px;
+    height: 444px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.AccountWidget {
+    display: flex;
+    background-color: white;
+    width: 174px;
+    height: 48px;
+    border-radius: 21.5px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.WidgetCardHeader {
+    margin: 0 0 12px 0;
+    font-size: 23px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
 .Logo source {
     display: none;
 }

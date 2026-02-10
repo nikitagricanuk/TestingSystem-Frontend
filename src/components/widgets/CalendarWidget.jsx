@@ -47,34 +47,14 @@ const CalendarWidget = () => {
     }
 
     return (
-        <div
-            style={{
-                backgroundColor: "#fff",
-                borderRadius: "16px",
-                padding: "16px",
-                width: "338px",
-                minHeight: "444px",
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            <h3
-                style={{
-                    margin: 0,
-                    marginBottom: "12px",
-                    fontSize: "23px",
-                    fontWeight: 600,
-                    marginTop: "10px",
-                }}
-            >
-                Календарь
-            </h3>
+        <div className="DashboardWidgetCard">
+            <h3 className="WidgetCardHeader">Календарь</h3>
 
             <Switcher
                 value={`${MONTHS[month]} ${year}`}
                 onPrev={prevMonth}
                 onNext={nextMonth}
+                style={{ marginBottom: "12px" }}
             />
 
             <div

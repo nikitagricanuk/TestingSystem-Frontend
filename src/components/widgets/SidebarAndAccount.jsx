@@ -7,7 +7,6 @@ const SidebarAndAccount = ({ pageName, children }) => {
             style={{
                 display: "flex",
                 width: "100%",
-                boxSizing: "border-box",
             }}
         >
             <SideBar />
@@ -15,7 +14,7 @@ const SidebarAndAccount = ({ pageName, children }) => {
             <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
                 <PagesHeader pageName={pageName} />
 
-                <div style={{ flex: 1 }}>{children}</div>
+                <div>{children}</div>
             </div>
         </div>
     );

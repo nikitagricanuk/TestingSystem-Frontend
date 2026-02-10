@@ -34,29 +34,8 @@ const UpcomingTestsCard = () => {
             : MOCK_TESTS.filter((t) => t.period === activeTab);
 
     return (
-        <div
-            style={{
-                backgroundColor: "#FFFFFF",
-                borderRadius: "16px",
-                padding: "16px",
-                width: "338px",
-                height: "444px",
-                boxSizing: "border-box",
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            <h3
-                style={{
-                    margin: 0,
-                    marginBottom: "12px",
-                    marginTop: "10px",
-                    fontSize: "23px",
-                    fontWeight: 600,
-                }}
-            >
-                Предстоящие тесты
-            </h3>
+        <div className="DashboardWidgetCard">
+            <h3 className="WidgetCardHeader">Предстоящие тесты</h3>
 
             <TabsSwitcher
                 tabs={TABS}
