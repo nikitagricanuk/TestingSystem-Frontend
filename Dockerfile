@@ -12,6 +12,8 @@ RUN npm run build
 # Этап продакшен-сервера
 FROM nginx:alpine
 
+RUN apk add --no-cache curl
+
 # Копируем кастомный конфиг
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
