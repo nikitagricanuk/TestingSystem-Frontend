@@ -34,7 +34,7 @@ export function ResultsPage() {
               <tr>
                 <th>Тест</th>
                 <th>Балл</th>
-                <th>Верно</th>
+                <th>Отвечено</th>
                 <th>Дата</th>
                 <th />
               </tr>

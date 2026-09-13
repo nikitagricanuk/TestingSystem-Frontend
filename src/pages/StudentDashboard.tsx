@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { AppLayout } from "../routes/AppLayout";
 import { Card } from "../components/ui/Card";
 import { useCurrentUser } from "../hooks/useCurrentUser";
-import { listMySessions } from "../lib/api/sessions";
+import { listMySessions, startSession } from "../lib/api/sessions";
 import { listTests } from "../lib/api/tests";
 import { fetchLeaderboard } from "../lib/api/results";
 
@@ -19,6 +19,8 @@ function isTestOpen(test: { start_date: string | null; end_date: string | null }
 
 export function StudentDashboard() {
   const { data: user } = useCurrentUser();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { data: sessions } = useQuery({ queryKey: ["my-sessions"], queryFn: listMySessions });
   const { data: tests } = useQuery({ queryKey: ["tests"], queryFn: listTests });
@@ -36,6 +38,14 @@ export function StudentDashboard() {
     .filter((s) => s.status === "completed")
     .slice(0, 3);
 
+  const startMutation = useMutation({
+    mutationFn: startSession,
+    onSuccess: (session) => {
+      queryClient.invalidateQueries({ queryKey: ["my-sessions"] });
+      navigate(`/session/${session.sid}`);
+    },
+  });
+
   return (
     <AppLayout>
       <div className={styles.page}>
@@ -52,15 +62,19 @@ export function StudentDashboard() {
             )}
             <ul className={styles.list}>
               {inProgress.map((s) => (
-                <li key={s.sid} className={styles.listItem}>
+                <li key={s.sid} className={styles.listItemButton} onClick={() => navigate(`/session/${s.sid}`)}>
                   <span>{testNameById.get(s.test_id) ?? "Тест"}</span>
-                  <span className={styles.pillActive}>В процессе</span>
+                  <span className={styles.pillActive}>Продолжить</span>
                 </li>
               ))}
               {openTests.map((t) => (
-                <li key={t.id} className={styles.listItem}>
+                <li
+                  key={t.id}
+                  className={styles.listItemButton}
+                  onClick={() => !startMutation.isPending && startMutation.mutate(t.id)}
+                >
                   <span>{t.name}</span>
-                  <span className={styles.pillOpen}>Доступен</span>
+                  <span className={styles.pillOpen}>Начать</span>
                 </li>
               ))}
             </ul>

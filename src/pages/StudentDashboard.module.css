@@ -64,6 +64,15 @@
   border-bottom: none;
 }
 
+.listItemButton {
+  composes: listItem;
+  cursor: pointer;
+}
+
+.listItemButton:hover {
+  color: var(--color-primary);
+}
+
 .score {
   font-weight: 700;
 }

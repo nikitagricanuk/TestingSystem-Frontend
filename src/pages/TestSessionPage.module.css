@@ -1,0 +1,137 @@
+.page {
+  padding-top: var(--space-6);
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.loading {
+  padding-top: var(--space-6);
+  color: var(--color-text-tertiary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.dots {
+  flex: 1;
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.dotAnswered,
+.dotCurrent,
+.dotUnanswered {
+  width: 28px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dotAnswered {
+  background: var(--color-success);
+}
+
+.dotCurrent {
+  background: var(--color-primary);
+}
+
+.dotUnanswered {
+  background: var(--color-border);
+}
+
+.dotAnswered:disabled,
+.dotCurrent:disabled,
+.dotUnanswered:disabled {
+  cursor: default;
+}
+
+.timer {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.questionCard {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.questionMeta {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-tertiary);
+}
+
+.prompt {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.choice:has(input:checked) {
+  background: var(--color-primary-soft);
+}
+
+.textAnswer {
+  min-height: 100px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-input);
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.reportError {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  cursor: not-allowed;
+}
+
+.submitError {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-danger);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.spacer {
+  flex: 1;
+}

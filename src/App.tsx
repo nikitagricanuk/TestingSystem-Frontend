@@ -7,6 +7,8 @@ import { RatingPage } from "./pages/RatingPage";
 import { ResultsPage } from "./pages/ResultsPage";
 import { ResultDetailPage } from "./pages/ResultDetailPage";
 import { SettingsPage } from "./pages/SettingsPage";
+import { TestSessionPage } from "./pages/TestSessionPage";
+import { TestFinishedPage } from "./pages/TestFinishedPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { RequireAuth } from "./routes/RequireAuth";
 
@@ -53,6 +55,22 @@ export default function App() {
         element={
           <RequireAuth>
             <SettingsPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/session/:sid"
+        element={
+          <RequireAuth>
+            <TestSessionPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/session/:sid/finished"
+        element={
+          <RequireAuth>
+            <TestFinishedPage />
           </RequireAuth>
         }
       />

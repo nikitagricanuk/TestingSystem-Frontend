@@ -8,6 +8,25 @@ import { fetchSessionReview } from "../lib/api/results";
 
 import styles from "./ResultDetailPage.module.css";
 
+// Answers are stored/returned as raw choice indices (a plain index string for
+// single-choice, a JSON-encoded array of indices for multiple-choice) — resolve
+// them back to the actual choice text for display. Free-text answers have no
+// choices at all, so they're shown as-is.
+function resolveAnswerLabel(raw: string | null, choices: string[]): string {
+  if (!raw) return "—";
+  if (choices.length === 0) return raw;
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.map((i) => choices[Number(i)] ?? String(i)).join(", ");
+    }
+  } catch {
+    // not JSON — fall through to single-index handling
+  }
+  const idx = Number(raw);
+  return Number.isInteger(idx) && choices[idx] !== undefined ? choices[idx] : raw;
+}
+
 export function ResultDetailPage() {
   const { sid } = useParams<{ sid: string }>();
   const { data: review, isLoading } = useQuery({
@@ -57,12 +76,13 @@ export function ResultDetailPage() {
                   </p>
                   <div className={styles.answers}>
                     <div>
-                      <span className={styles.answerLabel}>Ваш ответ:</span> <MathText text={q.student_answer || "—"} />
+                      <span className={styles.answerLabel}>Ваш ответ:</span>{" "}
+                      <MathText text={resolveAnswerLabel(q.student_answer, q.choices)} />
                     </div>
                     {!q.is_correct && (
                       <div>
                         <span className={styles.answerLabel}>Правильный ответ:</span>{" "}
-                        <MathText text={q.correct_answer || "—"} />
+                        <MathText text={resolveAnswerLabel(q.correct_answer, q.choices)} />
                       </div>
                     )}
                   </div>
