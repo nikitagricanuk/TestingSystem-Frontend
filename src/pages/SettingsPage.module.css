@@ -1,0 +1,58 @@
+.page {
+  padding-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 560px;
+}
+
+.title {
+  margin: 0;
+}
+
+.card {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 16px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.success {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-success);
+}
+
+.error {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-danger);
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}

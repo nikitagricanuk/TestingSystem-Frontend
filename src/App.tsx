@@ -1,8 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { LoginPage } from "./pages/auth/LoginPage";
-import { SignupPage } from "./pages/auth/SignupPage";
-import { HomePage } from "./pages/HomePage";
+import { SignupWizard } from "./pages/auth/SignupWizard";
+import { RoleHome } from "./pages/RoleHome";
+import { RatingPage } from "./pages/RatingPage";
+import { ResultsPage } from "./pages/ResultsPage";
+import { ResultDetailPage } from "./pages/ResultDetailPage";
+import { SettingsPage } from "./pages/SettingsPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { RequireAuth } from "./routes/RequireAuth";
 
@@ -10,13 +14,13 @@ export default function App() {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/signup" element={<SignupWizard />} />
 
       <Route
         path="/"
         element={
           <RequireAuth>
-            <HomePage />
+            <RoleHome />
           </RequireAuth>
         }
       />
@@ -24,7 +28,7 @@ export default function App() {
         path="/rating"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Рейтинг" />
+            <RatingPage />
           </RequireAuth>
         }
       />
@@ -32,7 +36,15 @@ export default function App() {
         path="/results"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Мои результаты" />
+            <ResultsPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/results/:sid"
+        element={
+          <RequireAuth>
+            <ResultDetailPage />
           </RequireAuth>
         }
       />
@@ -40,7 +52,7 @@ export default function App() {
         path="/settings"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Настройки" />
+            <SettingsPage />
           </RequireAuth>
         }
       />

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 import { useAuthStore } from "../store/auth";
 import { logout as apiLogout } from "../lib/api/auth";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import { navForRole } from "./navConfig";
 import { ROLE_LABELS } from "../lib/roleLabels";
 
@@ -14,7 +15,7 @@ interface AppLayoutProps {
 
 export function AppLayout({ children }: AppLayoutProps) {
   const navigate = useNavigate();
-  const user = useAuthStore((s) => s.user);
+  const { data: user } = useCurrentUser();
   const refreshToken = useAuthStore((s) => s.refreshToken);
   const clear = useAuthStore((s) => s.clear);
   const groups = navForRole(user?.role ?? null);

@@ -1,0 +1,93 @@
+.page {
+  padding-top: var(--space-6);
+}
+
+.title {
+  margin: 0 0 var(--space-1);
+}
+
+.greeting {
+  margin: 0 0 var(--space-6);
+  color: var(--color-text-secondary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 15px;
+}
+
+.link {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.listItem:last-child {
+  border-bottom: none;
+}
+
+.score {
+  font-weight: 700;
+}
+
+.pillActive,
+.pillOpen {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+}
+
+.pillActive {
+  background: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.pillOpen {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
