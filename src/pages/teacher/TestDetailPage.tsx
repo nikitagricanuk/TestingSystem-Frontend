@@ -8,6 +8,8 @@ import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { LeaderboardTable } from "../../components/LeaderboardTable";
 import { CertificatesTab } from "./CertificatesTab";
+import { IconTabs } from "../../components/IconTabs";
+import { OverviewIcon, PeopleIcon, AnalyticsIcon, CertificateIcon } from "../../components/icons";
 import {
   getTest,
   listTestQuestions,
@@ -26,11 +28,11 @@ import styles from "./TestDetailPage.module.css";
 
 type TabKey = "overview" | "rating" | "analysis" | "certificates";
 
-const TABS: { key: TabKey; label: string }[] = [
-  { key: "overview", label: "Обзор" },
-  { key: "rating", label: "Рейтинг" },
-  { key: "analysis", label: "Аналитика" },
-  { key: "certificates", label: "Сертификаты" },
+const TABS = [
+  { key: "overview" as const, label: "Обзор", icon: OverviewIcon },
+  { key: "rating" as const, label: "Рейтинг", icon: PeopleIcon },
+  { key: "analysis" as const, label: "Аналитика", icon: AnalyticsIcon },
+  { key: "certificates" as const, label: "Сертификаты", icon: CertificateIcon },
 ];
 
 function toDateInputValue(iso: string | null): string {
@@ -59,20 +61,11 @@ export function TestDetailPage() {
   return (
     <AppLayout>
       <div className={styles.page}>
-        <h1 className={styles.title}>{test.name}</h1>
-
-        <div className={styles.tabs}>
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              type="button"
-              className={t.key === tab ? styles.tabActive : styles.tab}
-              onClick={() => setTab(t.key)}
-            >
-              {t.label}
-            </button>
-          ))}
+        <div className={styles.tabsRow}>
+          <IconTabs items={TABS} active={tab} onChange={setTab} />
         </div>
+
+        <h1 className={styles.title}>{test.name}</h1>
 
         {tab === "overview" && <OverviewTab testId={test.id} />}
         {tab === "rating" && <LeaderboardTable testId={test.id} />}

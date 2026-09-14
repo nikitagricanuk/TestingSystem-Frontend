@@ -1,18 +1,26 @@
 .page {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  background-image: linear-gradient(rgba(20, 40, 70, 0.15), rgba(20, 40, 70, 0.25)), url("../assets/campus-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.body {
+  flex: 1;
+  display: flex;
   align-items: center;
   padding: var(--space-8);
   gap: var(--space-8);
-  /* Placeholder for the client's ИрНИТУ campus photo (Modern Design – Login.pdf);
-     swap for the real asset once it's available. */
-  background: linear-gradient(135deg, #4f6fb8 0%, #6f8fce 45%, #a9c3e6 100%);
 }
 
 .panel {
   flex: 0 0 auto;
   width: min(420px, 100%);
-  background: var(--color-surface);
+  max-height: calc(100vh - var(--space-8) * 2 - 48px);
+  overflow-y: auto;
+  background: rgba(248, 249, 250, 0.97);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card-hover);
   padding: var(--space-8);
@@ -23,16 +31,30 @@
   display: flex;
   align-items: flex-end;
   padding: var(--space-10);
-  min-height: 60vh;
+  min-height: 50vh;
 }
 
 .heroText {
   margin: 0;
   color: var(--color-text-inverse);
-  font-size: clamp(28px, 4vw, 48px);
+  font-size: clamp(28px, 4vw, 52px);
   font-weight: 800;
   line-height: 1.15;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+}
+
+.footer {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  font-size: 13px;
+  color: var(--color-text-inverse);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(4px);
 }
 
 @media (max-width: 860px) {
@@ -40,7 +62,7 @@
     display: none;
   }
 
-  .page {
+  .body {
     padding: var(--space-4);
   }
 }

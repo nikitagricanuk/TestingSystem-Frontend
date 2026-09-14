@@ -11,6 +11,7 @@ import { Input } from "../../components/ui/Input";
 import { login, loginAsGuest, fetchCurrentUser } from "../../lib/api/auth";
 import { useAuthStore } from "../../store/auth";
 import type { ApiError } from "../../lib/api/types";
+import badge from "../../assets/irnitu-badge.png";
 
 import styles from "./LoginPage.module.css";
 
@@ -67,9 +68,7 @@ export function LoginPage() {
   return (
     <AuthLayout>
       <div className={styles.brand}>
-        <div className={styles.logo} aria-hidden="true">
-          95
-        </div>
+        <img src={badge} alt="" className={styles.logo} aria-hidden="true" />
         <span className={styles.brandName}>
           Система тестирования
           <br />
@@ -107,7 +106,7 @@ export function LoginPage() {
             <input type="checkbox" defaultChecked />
             Запомнить меня
           </label>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" variant="outline" disabled={isSubmitting}>
             {isSubmitting ? "Входим…" : "Войти"}
           </Button>
         </div>
@@ -135,7 +134,6 @@ export function LoginPage() {
         ))}
       </div>
 
-      <p className={styles.footer}>Политика конфиденциальности • Поддержка</p>
     </AuthLayout>
   );
 }

@@ -1,8 +1,12 @@
+import type { ComponentType, SVGProps } from "react";
+
 import type { Role } from "../lib/api/types";
+import { GridIcon, StarIcon, HistoryIcon, ChecklistIcon, ListIcon, PersonIcon, GlobeIcon, CalendarIcon } from "../components/icons";
 
 export interface NavItem {
   label: string;
   to: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
 }
 
 export interface NavGroup {
@@ -14,9 +18,9 @@ const STUDENT_NAV: NavGroup[] = [
   {
     title: null,
     items: [
-      { label: "Главная", to: "/" },
-      { label: "Рейтинг", to: "/rating" },
-      { label: "Мои результаты", to: "/results" },
+      { label: "Главная", to: "/", icon: GridIcon },
+      { label: "Рейтинг", to: "/rating", icon: StarIcon },
+      { label: "Мои результаты", to: "/results", icon: HistoryIcon },
     ],
   },
 ];
@@ -25,8 +29,8 @@ const TEACHER_NAV: NavGroup[] = [
   {
     title: "ТЕСТИРОВАНИЕ",
     items: [
-      { label: "Мои тесты", to: "/teacher/tests" },
-      { label: "Банк вопросов", to: "/teacher/questions" },
+      { label: "Мои тесты", to: "/teacher/tests", icon: ChecklistIcon },
+      { label: "Банк вопросов", to: "/teacher/questions", icon: ListIcon },
     ],
   },
 ];
@@ -34,25 +38,25 @@ const TEACHER_NAV: NavGroup[] = [
 const ADMIN_NAV: NavGroup[] = [
   {
     title: null,
-    items: [{ label: "Дашборд", to: "/admin/dashboard" }],
+    items: [{ label: "Дашборд", to: "/admin/dashboard", icon: CalendarIcon }],
   },
   {
     title: "ТЕСТИРОВАНИЕ",
     items: [
-      { label: "Мои тесты", to: "/teacher/tests" },
-      { label: "Банк вопросов", to: "/teacher/questions" },
+      { label: "Мои тесты", to: "/teacher/tests", icon: ChecklistIcon },
+      { label: "Банк вопросов", to: "/teacher/questions", icon: ListIcon },
     ],
   },
   {
     title: "АДМИНИСТРИРОВАНИЕ",
-    items: [{ label: "Пользователи", to: "/admin/users" }],
+    items: [{ label: "Пользователи", to: "/admin/users", icon: PersonIcon }],
   },
 ];
 
 const ADMISSIONS_NAV: NavGroup[] = [
   {
     title: "ПРИЁМНАЯ КОМИССИЯ",
-    items: [{ label: "Общий рейтинг", to: "/admissions/rating" }],
+    items: [{ label: "Общий рейтинг", to: "/admissions/rating", icon: GlobeIcon }],
   },
 ];
 

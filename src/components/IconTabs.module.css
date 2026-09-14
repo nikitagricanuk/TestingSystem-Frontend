@@ -1,0 +1,45 @@
+.tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  margin: 0 auto var(--space-6);
+}
+
+.pill,
+.pillActive {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 36px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pill {
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
+.pill:hover {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.pillActive {
+  background: var(--color-text);
+  color: var(--color-text-inverse);
+}
+
+.icon {
+  flex: 0 0 auto;
+}

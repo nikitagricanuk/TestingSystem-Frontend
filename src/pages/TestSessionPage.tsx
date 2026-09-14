@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AxiosError } from "axios";
 
-import { AppLayout } from "../routes/AppLayout";
-import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { MathText } from "../components/MathText";
 import {
@@ -18,6 +16,7 @@ import {
 } from "../lib/api/sessions";
 import { getTest } from "../lib/api/tests";
 import type { ApiError } from "../lib/api/types";
+import badge from "../assets/irnitu-badge.png";
 
 import styles from "./TestSessionPage.module.css";
 
@@ -117,16 +116,18 @@ export function TestSessionPage() {
     },
   });
 
-  if (!session || !questions || !currentQuestion) {
+  if (!session || !questions || !currentQuestion || !test) {
     return (
-      <AppLayout>
+      <div className={styles.shell}>
         <p className={styles.loading}>Загрузка…</p>
-      </AppLayout>
+      </div>
     );
   }
 
   const atFirst = session.current_question_index === 0;
   const atLast = session.current_question_index === questions.length - 1;
+  const answeredCount = questions.filter((q) => q.status === "answered").length;
+  const progressPercent = (answeredCount / questions.length) * 100;
 
   function toggleMultiple(choiceIndex: string) {
     const next = new Set(selectedMultiple);
@@ -137,110 +138,121 @@ export function TestSessionPage() {
   }
 
   return (
-    <AppLayout>
-      <div className={styles.page}>
-        <div className={styles.header}>
-          <div className={styles.dots}>
-            {questions.map((q) => {
-              const isCurrent = q.index === session.current_question_index;
-              const clickable = !navMutation.isPending && (!isLinear || isCurrent);
-              const cls = isCurrent
-                ? styles.dotCurrent
-                : q.status === "answered"
-                  ? styles.dotAnswered
-                  : styles.dotUnanswered;
-              return (
-                <button
-                  key={q.question_id}
-                  type="button"
-                  className={cls}
-                  disabled={!clickable}
-                  onClick={() => navMutation.mutate({ jump: q.question_id })}
-                  aria-label={`Вопрос ${q.index + 1}`}
-                />
-              );
-            })}
-          </div>
-          <div className={styles.timer}>{formatElapsed(elapsed)}</div>
+    <div className={styles.shell}>
+      <header className={styles.topbar}>
+        <div className={styles.brand}>
+          <img src={badge} alt="" className={styles.logo} aria-hidden="true" />
+          <span>
+            Система тестирования
+            <br />
+            ИрНИТУ
+          </span>
         </div>
+        <div className={styles.testTitle}>{test.name}</div>
+        <div className={styles.timerBlock}>
+          <div className={styles.timerValue}>{formatElapsed(elapsed)}</div>
+          <div className={styles.timerLabel}>Затраченное время</div>
+        </div>
+      </header>
 
-        <Card className={styles.questionCard}>
-          <div className={styles.questionMeta}>Вопрос {currentQuestion.index + 1}</div>
-          <p className={styles.prompt}>
-            <MathText text={currentQuestion.question} />
-          </p>
-
-          {currentQuestion.question_type === "single" && (
-            <div className={styles.choices}>
-              {currentQuestion.choices.map((choice, i) => (
-                <label key={i} className={styles.choice}>
-                  <input
-                    type="radio"
-                    name="answer"
-                    checked={selectedSingle === String(i)}
-                    onChange={() => {
-                      setSelectedSingle(String(i));
-                      answerMutation.mutate(String(i));
-                    }}
-                  />
-                  <MathText text={choice} />
-                </label>
-              ))}
-            </div>
-          )}
-
-          {currentQuestion.question_type === "multiple" && (
-            <div className={styles.choices}>
-              {currentQuestion.choices.map((choice, i) => (
-                <label key={i} className={styles.choice}>
-                  <input
-                    type="checkbox"
-                    checked={selectedMultiple.has(String(i))}
-                    onChange={() => toggleMultiple(String(i))}
-                  />
-                  <MathText text={choice} />
-                </label>
-              ))}
-            </div>
-          )}
-
-          {(currentQuestion.question_type === "text" || currentQuestion.question_type == null) && (
-            <textarea
-              className={styles.textAnswer}
-              value={textValue}
-              onChange={(e) => setTextValue(e.target.value)}
-              onBlur={() => textValue && answerMutation.mutate(textValue)}
-              placeholder="Введите ответ"
+      <div className={styles.progressTrack}>
+        <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+        <div className={styles.progressDots}>
+          {questions.map((q) => (
+            <button
+              key={q.question_id}
+              type="button"
+              className={styles.progressDot}
+              disabled={!isLinear || q.index === session.current_question_index}
+              onClick={() => navMutation.mutate({ jump: q.question_id })}
+              aria-label={`Вопрос ${q.index + 1}`}
             />
-          )}
-
-          <button type="button" className={styles.reportError} disabled>
-            Сообщить об ошибке
-          </button>
-        </Card>
-
-        {submitError && <p className={styles.submitError}>{submitError}</p>}
-
-        <div className={styles.actions}>
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={atFirst || isLinear || navMutation.isPending}
-            onClick={() => navMutation.mutate("prev")}
-          >
-            Назад
-          </Button>
-          <div className={styles.spacer} />
-          {!atLast && (
-            <Button type="button" variant="secondary" disabled={navMutation.isPending} onClick={() => navMutation.mutate("next")}>
-              Далее
-            </Button>
-          )}
-          <Button type="button" disabled={submitMutation.isPending} onClick={() => submitMutation.mutate()}>
-            {submitMutation.isPending ? "Завершаем…" : "Закончить"}
-          </Button>
+          ))}
         </div>
       </div>
-    </AppLayout>
+
+      <div className={styles.content}>
+        <div className={styles.questionMeta}>Выберите правильный вариант ответа</div>
+        <p className={styles.prompt}>
+          <MathText text={currentQuestion.question} />
+        </p>
+
+        {currentQuestion.question_type === "single" && (
+          <div className={styles.choices}>
+            {currentQuestion.choices.map((choice, i) => (
+              <label key={i} className={styles.choice}>
+                <input
+                  type="radio"
+                  name="answer"
+                  checked={selectedSingle === String(i)}
+                  onChange={() => {
+                    setSelectedSingle(String(i));
+                    answerMutation.mutate(String(i));
+                  }}
+                />
+                <MathText text={choice} />
+              </label>
+            ))}
+          </div>
+        )}
+
+        {currentQuestion.question_type === "multiple" && (
+          <div className={styles.choices}>
+            {currentQuestion.choices.map((choice, i) => (
+              <label key={i} className={styles.choice}>
+                <input
+                  type="checkbox"
+                  checked={selectedMultiple.has(String(i))}
+                  onChange={() => toggleMultiple(String(i))}
+                />
+                <MathText text={choice} />
+              </label>
+            ))}
+          </div>
+        )}
+
+        {(currentQuestion.question_type === "text" || currentQuestion.question_type == null) && (
+          <textarea
+            className={styles.textAnswer}
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+            onBlur={() => textValue && answerMutation.mutate(textValue)}
+            placeholder="Введите ответ"
+          />
+        )}
+
+        <div className={styles.divider} />
+        <button type="button" className={styles.reportError} disabled>
+          Сообщить об ошибке
+        </button>
+
+        {submitError && <p className={styles.submitError}>{submitError}</p>}
+      </div>
+
+      <div className={styles.actions}>
+        <Button
+          type="button"
+          variant="secondary"
+          disabled={atFirst || isLinear || navMutation.isPending}
+          onClick={() => navMutation.mutate("prev")}
+        >
+          Назад
+        </Button>
+        {!atLast && (
+          <Button
+            type="button"
+            style={{ background: "var(--color-text)", color: "var(--color-text-inverse)" }}
+            disabled={navMutation.isPending}
+            onClick={() => navMutation.mutate("next")}
+          >
+            Далее
+          </Button>
+        )}
+        <div className={styles.spacer} />
+        <Button type="button" disabled={submitMutation.isPending} onClick={() => submitMutation.mutate()}>
+          {submitMutation.isPending ? "Завершаем…" : "Закончить"}
+        </Button>
+      </div>
+    </div>
   );
 }

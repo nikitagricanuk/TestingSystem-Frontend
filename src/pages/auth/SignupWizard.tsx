@@ -13,6 +13,7 @@ import { signup, login, fetchCurrentUser } from "../../lib/api/auth";
 import { searchSettlements, searchSchools, type Settlement, type School } from "../../lib/api/geo";
 import { useAuthStore } from "../../store/auth";
 import type { ApiError } from "../../lib/api/types";
+import badge from "../../assets/irnitu-badge.png";
 
 import styles from "./SignupWizard.module.css";
 
@@ -127,9 +128,7 @@ export function SignupWizard() {
   return (
     <AuthLayout>
       <div className={styles.brand}>
-        <div className={styles.logo} aria-hidden="true">
-          95
-        </div>
+        <img src={badge} alt="" className={styles.logo} aria-hidden="true" />
         <span className={styles.brandName}>
           Система тестирования
           <br />
@@ -276,11 +275,11 @@ export function SignupWizard() {
           )}
           <div className={styles.spacer} />
           {step < STEP_COUNT - 1 ? (
-            <Button type="button" onClick={goNext}>
+            <Button type="button" variant="outline" onClick={goNext}>
               Продолжить
             </Button>
           ) : (
-            <Button type="submit" disabled={submitting}>
+            <Button type="submit" variant="outline" disabled={submitting}>
               {submitting ? "Завершаем…" : "Завершить"}
             </Button>
           )}

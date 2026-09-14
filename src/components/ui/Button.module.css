@@ -41,6 +41,16 @@
   background: var(--color-surface-alt);
 }
 
+.outline {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.outline:hover:not(:disabled) {
+  background: var(--color-primary-soft);
+}
+
 .ghost {
   background: transparent;
   color: var(--color-text-secondary);
