@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 import type { LoginResponse, UserFull } from "../lib/api/types";
+import { queryClient } from "../lib/queryClient";
 
 interface AuthState {
   accessToken: string | null;
@@ -19,19 +20,27 @@ export const useAuthStore = create<AuthState>()(
       accessToken: null,
       refreshToken: null,
       user: null,
-      setSession: (tokens, user) =>
+      setSession: (tokens, user) => {
+        // Wipe any cached queries from a previous session first — query keys
+        // (e.g. ["me"]) aren't scoped per-user, so without this a fresh login
+        // can briefly render with the previous account's cached data.
+        queryClient.clear();
         set({
           accessToken: tokens.access_token,
           refreshToken: tokens.refresh_token,
           user,
-        }),
+        });
+      },
       setUser: (user) => set({ user }),
       setTokens: (tokens) =>
         set({
           accessToken: tokens.access_token,
           refreshToken: tokens.refresh_token,
         }),
-      clear: () => set({ accessToken: null, refreshToken: null, user: null }),
+      clear: () => {
+        queryClient.clear();
+        set({ accessToken: null, refreshToken: null, user: null });
+      },
     }),
     { name: "irnitu-auth" },
   ),

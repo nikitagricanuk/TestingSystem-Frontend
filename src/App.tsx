@@ -13,7 +13,9 @@ import { TeacherTestsPage } from "./pages/teacher/TeacherTestsPage";
 import { TestDetailPage } from "./pages/teacher/TestDetailPage";
 import { QuestionBankPage } from "./pages/teacher/QuestionBankPage";
 import { QuestionEditorPage } from "./pages/teacher/QuestionEditorPage";
-import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { AdminDashboardPage } from "./pages/admin/AdminDashboardPage";
+import { AdminUsersPage } from "./pages/admin/AdminUsersPage";
+import { AdmissionsRatingPage } from "./pages/admissions/AdmissionsRatingPage";
 import { RequireAuth } from "./routes/RequireAuth";
 
 export default function App() {
@@ -122,7 +124,7 @@ export default function App() {
         path="/admin/dashboard"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Дашборд" />
+            <AdminDashboardPage />
           </RequireAuth>
         }
       />
@@ -130,7 +132,7 @@ export default function App() {
         path="/admin/users"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Пользователи" />
+            <AdminUsersPage />
           </RequireAuth>
         }
       />
@@ -138,7 +140,7 @@ export default function App() {
         path="/admissions/rating"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Общий рейтинг" />
+            <AdmissionsRatingPage />
           </RequireAuth>
         }
       />
