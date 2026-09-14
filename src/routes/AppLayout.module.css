@@ -1,11 +1,13 @@
 .shell {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .sidebar {
   width: var(--sidebar-width);
   flex: 0 0 auto;
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   padding: var(--space-6) var(--space-4);
@@ -113,6 +115,8 @@
 
 .main {
   flex: 1;
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   min-width: 0;

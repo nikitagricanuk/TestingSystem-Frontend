@@ -23,7 +23,7 @@ export function StudentDashboard() {
   const queryClient = useQueryClient();
 
   const { data: sessions } = useQuery({ queryKey: ["my-sessions"], queryFn: listMySessions });
-  const { data: tests } = useQuery({ queryKey: ["tests"], queryFn: listTests });
+  const { data: tests } = useQuery({ queryKey: ["tests"], queryFn: () => listTests() });
   const { data: leaderboard } = useQuery({
     queryKey: ["leaderboard", "global", "all"],
     queryFn: () => fetchLeaderboard({ scope: "global", period: "all" }),

@@ -18,7 +18,7 @@ export function ResultsPage() {
     queryKey: ["my-sessions"],
     queryFn: listMySessions,
   });
-  const { data: tests } = useQuery({ queryKey: ["tests"], queryFn: listTests });
+  const { data: tests } = useQuery({ queryKey: ["tests"], queryFn: () => listTests() });
 
   const testNameById = new Map((tests ?? []).map((t) => [t.id, t.name]));
   const finished = (sessions ?? []).filter((s) => s.status === "completed");

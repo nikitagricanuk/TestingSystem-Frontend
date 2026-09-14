@@ -9,6 +9,10 @@ import { ResultDetailPage } from "./pages/ResultDetailPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import { TestSessionPage } from "./pages/TestSessionPage";
 import { TestFinishedPage } from "./pages/TestFinishedPage";
+import { TeacherTestsPage } from "./pages/teacher/TeacherTestsPage";
+import { TestDetailPage } from "./pages/teacher/TestDetailPage";
+import { QuestionBankPage } from "./pages/teacher/QuestionBankPage";
+import { QuestionEditorPage } from "./pages/teacher/QuestionEditorPage";
 import { PlaceholderPage } from "./pages/PlaceholderPage";
 import { RequireAuth } from "./routes/RequireAuth";
 
@@ -78,7 +82,15 @@ export default function App() {
         path="/teacher/tests"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Мои тесты" />
+            <TeacherTestsPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/teacher/tests/:testId"
+        element={
+          <RequireAuth>
+            <TestDetailPage />
           </RequireAuth>
         }
       />
@@ -86,7 +98,23 @@ export default function App() {
         path="/teacher/questions"
         element={
           <RequireAuth>
-            <PlaceholderPage title="Банк вопросов" />
+            <QuestionBankPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/teacher/questions/new"
+        element={
+          <RequireAuth>
+            <QuestionEditorPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/teacher/questions/:questionId"
+        element={
+          <RequireAuth>
+            <QuestionEditorPage />
           </RequireAuth>
         }
       />
