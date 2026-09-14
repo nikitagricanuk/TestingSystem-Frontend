@@ -17,6 +17,20 @@
   margin: 0;
 }
 
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.certificateError {
+  margin: 0;
+  color: var(--color-danger);
+  font-size: 13px;
+}
+
 .summary {
   display: flex;
   gap: var(--space-4);

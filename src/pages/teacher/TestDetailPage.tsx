@@ -7,6 +7,7 @@ import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { LeaderboardTable } from "../../components/LeaderboardTable";
+import { CertificatesTab } from "./CertificatesTab";
 import {
   getTest,
   listTestQuestions,
@@ -76,11 +77,7 @@ export function TestDetailPage() {
         {tab === "overview" && <OverviewTab testId={test.id} />}
         {tab === "rating" && <LeaderboardTable testId={test.id} />}
         {tab === "analysis" && <AnalysisTab testId={test.id} />}
-        {tab === "certificates" && (
-          <Card className={styles.placeholderCard}>
-            Редактор сертификатов ещё в разработке.
-          </Card>
-        )}
+        {tab === "certificates" && <CertificatesTab testId={test.id} />}
       </div>
     </AppLayout>
   );

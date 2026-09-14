@@ -56,5 +56,12 @@
 .actions {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: var(--space-3);
+}
+
+.certificateError {
+  margin: var(--space-3) 0 0;
+  color: var(--color-danger);
+  font-size: 13px;
 }

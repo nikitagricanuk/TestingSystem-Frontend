@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { AppLayout } from "../routes/AppLayout";
 import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { getSession } from "../lib/api/sessions";
 import { getTest } from "../lib/api/tests";
+import { downloadCertificate } from "../lib/api/certificates";
 
 import styles from "./TestFinishedPage.module.css";
 
@@ -31,6 +33,12 @@ export function TestFinishedPage() {
     queryKey: ["test", session?.test_id],
     queryFn: () => getTest(session!.test_id),
     enabled: !!session?.test_id,
+  });
+  const [certificateError, setCertificateError] = useState<string | null>(null);
+  const certificateMutation = useMutation({
+    mutationFn: () => downloadCertificate(sid!),
+    onError: () => setCertificateError("Сертификат для этого теста ещё не настроен"),
+    onSuccess: () => setCertificateError(null),
   });
 
   if (!session) {
@@ -73,10 +81,19 @@ export function TestFinishedPage() {
                 </Button>
               </Link>
             )}
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={certificateMutation.isPending}
+              onClick={() => certificateMutation.mutate()}
+            >
+              {certificateMutation.isPending ? "Готовим…" : "Скачать сертификат"}
+            </Button>
             <Button type="button" onClick={() => navigate("/", { replace: true })}>
               На главную
             </Button>
           </div>
+          {certificateError && <p className={styles.certificateError}>{certificateError}</p>}
         </Card>
       </div>
     </AppLayout>

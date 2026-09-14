@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { AppLayout } from "../routes/AppLayout";
 import { Card } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
 import { MathText } from "../components/MathText";
 import { fetchSessionReview } from "../lib/api/results";
+import { downloadCertificate } from "../lib/api/certificates";
 
 import styles from "./ResultDetailPage.module.css";
 
@@ -37,13 +40,31 @@ export function ResultDetailPage() {
 
   const correctCount = review?.questions.filter((q) => q.is_correct).length ?? 0;
 
+  const [certificateError, setCertificateError] = useState<string | null>(null);
+  const certificateMutation = useMutation({
+    mutationFn: () => downloadCertificate(sid!),
+    onError: () => setCertificateError("Сертификат для этого теста ещё не настроен"),
+    onSuccess: () => setCertificateError(null),
+  });
+
   return (
     <AppLayout>
       <div className={styles.page}>
         <Link to="/results" className={styles.back}>
           ← К результатам
         </Link>
-        <h1 className={styles.title}>Разбор теста</h1>
+        <div className={styles.titleRow}>
+          <h1 className={styles.title}>Разбор теста</h1>
+          <Button
+            type="button"
+            variant="secondary"
+            disabled={certificateMutation.isPending}
+            onClick={() => certificateMutation.mutate()}
+          >
+            {certificateMutation.isPending ? "Готовим…" : "Скачать сертификат"}
+          </Button>
+        </div>
+        {certificateError && <p className={styles.certificateError}>{certificateError}</p>}
 
         {isLoading && <p>Загрузка…</p>}
 
